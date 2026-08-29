@@ -1,115 +1,206 @@
 .auth-shell {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-}
-
-.mobile-header {
-  display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 16px 20px;
+  justify-content: center;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--surface-alt) 0%, var(--bg) 100%);
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 24px;
+  right: 24px;
   background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.04em;
+  border: 1px solid var(--border);
   color: var(--text-secondary);
-}
-
-.auth-panel {
-  display: none;
-}
-
-.auth-form-area {
-  flex: 1;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-@media (min-width: 900px) {
-  .auth-shell {
-    flex-direction: row;
-  }
-
-  .mobile-header {
-    display: none;
-  }
-
-  .auth-panel {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 46%;
-    padding: 40px 56px;
-    background:
-      radial-gradient(circle at 15% 15%, rgba(242, 169, 59, 0.06), transparent 40%),
-      var(--surface);
-    border-right: 1px solid var(--border);
-  }
-
-  .auth-form-area {
-    width: 54%;
-  }
+.theme-toggle:hover {
+  color: var(--text-primary);
+  background-color: var(--surface);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-.status-strip {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  color: var(--text-secondary);
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.auth-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 450px;
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.auth-branding-panel {
+  display: flex;
+  background: var(--surface-alt);
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px 24px 0 0;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 32px;
+  padding-bottom: 24px;
+}
+
+.branding-content {
+  text-align: center;
+  z-index: 2;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.logo-container {
+  width: 56px;
+  height: 56px;
+  background: var(--surface);
+  border-radius: 16px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 }
 
-.status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--success);
-  margin-right: 8px;
-  animation: pulse 2s ease-in-out infinite;
-  flex-shrink: 0;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.35; }
-}
-
-.auth-panel-content {
-  max-width: 380px;
-}
-
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.08em;
+.leaf-icon {
+  width: 28px;
+  height: 28px;
   color: var(--accent);
-  text-transform: uppercase;
-  margin-bottom: 20px;
 }
 
-.auth-panel h1 {
+.branding-content h2 {
   font-family: var(--font-display);
-  font-size: 34px;
-  font-weight: 600;
-  line-height: 1.25;
-  color: var(--text-primary);
-  margin-bottom: 16px;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--accent);
 }
 
-.panel-description {
-  font-size: 15px;
-  line-height: 1.6;
+.branding-content p {
+  font-size: 13px;
   color: var(--text-secondary);
+  font-weight: 500;
 }
 
-.panel-footer {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--text-muted);
+.decorative-line, .branding-tagline, .landscape-illustration {
+  display: none;
+}
+
+.auth-form-panel {
+  background: var(--surface);
+  padding: 40px 32px;
+  flex: 1;
+  border-radius: 0 0 24px 24px;
+}
+
+@media (min-width: 768px) {
+  .auth-card-wrapper {
+    flex-direction: row;
+    max-width: 950px;
+    min-height: 600px;
+    overflow: hidden;
+    border-radius: 28px;
+    background: var(--surface);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.02);
+  }
+
+  .auth-branding-panel {
+    display: flex;
+    width: 42%;
+    border-radius: 28px 0 0 28px;
+    padding-top: 60px;
+  }
+  
+  .logo-container {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    margin: 0 auto 24px;
+  }
+
+  .leaf-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .branding-content h2 {
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+
+  .branding-content p {
+    font-size: 14px;
+  }
+
+  .decorative-line, .branding-tagline, .landscape-illustration {
+    display: block;
+  }
+  
+  .decorative-line {
+    width: 24px;
+    height: 2px;
+    background-color: var(--accent-light);
+    margin: 24px auto;
+    border-radius: 2px;
+  }
+
+  .branding-tagline {
+    font-size: 15px !important;
+    line-height: 1.6;
+    color: var(--text-primary) !important;
+    font-weight: 500;
+  }
+
+  .landscape-illustration {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background-image: url('./assets/landscape.jpg');
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    z-index: 1;
+    mask-image: linear-gradient(to top, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+  }
+
+  .auth-form-panel {
+    width: 58%;
+    border-radius: 0 28px 28px 0;
+    padding: 64px 64px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
 }

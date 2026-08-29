@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sqlmodel import Session, select
 from auth import engine, User, hash_password, verify_password, create_access_token
+from advisory import generate_advisory
 
 app = FastAPI()
 
@@ -13,6 +14,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.get("/")
 def read_root():
@@ -57,3 +59,16 @@ def login(data: LoginRequest):
 
         token = create_access_token({"sub": user.email, "user_id": user.id})
         return {"message": "Login successful", "access_token": token}
+
+
+class AdvisoryRequest(BaseModel):
+    source_text: str
+
+
+@app.post("/generate-advisory")
+def create_advisory(data: AdvisoryRequest):
+    try:
+        advisory = generate_advisory(data.source_text)
+        return advisory
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

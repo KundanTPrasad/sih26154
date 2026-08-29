@@ -1,17 +1,35 @@
 :root {
-  --bg: #0B1220;
-  --surface: #131B2E;
-  --surface-hover: #182238;
-  --border: #232D42;
-  --text-primary: #E8ECF4;
-  --text-secondary: #8993AB;
-  --text-muted: #5B6478;
-  --accent: #F2A93B;
-  --accent-hover: #FFBE5C;
-  --success: #3ECF8E;
-  --font-display: 'Space Grotesk', sans-serif;
+  /* Light Theme */
+  --bg: #FCFBF8; /* Off-white */
+  --surface: #ffffff;
+  --surface-alt: #F7F3EA; /* Warm cream */
+  --border: #e2e8f0;
+  --text-primary: #26302A; /* Charcoal text */
+  --text-secondary: #7A817C; /* Muted text */
+  --text-muted: #94a3b8;
+  --text-on-alt: #ffffff;
+  --accent: #193B2A; /* Deep forest green */
+  --accent-hover: #244D38; /* Dark green */
+  --accent-light: #78927D; /* Sage green */
+  --success: #10b981;
+  --font-display: 'Inter', sans-serif;
   --font-body: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+}
+
+[data-theme='dark'] {
+  --bg: #0D1511;
+  --surface: #121D17; /* Card */
+  --surface-alt: #18261E; /* Panel */
+  --border: #1e293b;
+  --text-primary: #F2F5F1;
+  --text-secondary: #98A69D;
+  --text-muted: #475569;
+  --text-on-alt: #0D1511; /* Maybe white is better for buttons? Let's use #F2F5F1 for text on accent */
+  --accent: #6FA982;
+  --accent-hover: #78927D;
+  --accent-light: #244D38;
+  --success: #34d399;
 }
 
 * {
@@ -25,6 +43,7 @@ body {
   color: var(--text-primary);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 input {
