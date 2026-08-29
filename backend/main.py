@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sqlmodel import Session, select
 from auth import engine, User, hash_password, verify_password, create_access_token
-from advisory import generate_advisory
+from advisory import generate_advisory, generate_secondary_output
 
 app = FastAPI()
 
@@ -70,5 +70,17 @@ def create_advisory(data: AdvisoryRequest):
     try:
         advisory = generate_advisory(data.source_text)
         return advisory
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+class SecondaryOutputRequest(BaseModel):
+    source_text: str
+    output_type: str
+
+@app.post("/generate-secondary")
+def create_secondary_output(data: SecondaryOutputRequest):
+    try:
+        result = generate_secondary_output(data.source_text, data.output_type)
+        return {"output_type": data.output_type, "content": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

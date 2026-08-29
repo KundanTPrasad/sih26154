@@ -37,3 +37,30 @@ Source text: {source_text}
     advisory_data = json.loads(raw_output)
     advisory_data["reference"] = f"ADV-2026-{random.randint(1000, 9999)}"
     return advisory_data
+
+    def generate_secondary_output(source_text: str, output_type: str) -> str:
+    if output_type == "linkedin":
+        prompt = f"""Write a professional LinkedIn post based on the 
+following content. Keep it under 150 words, engaging, and suitable 
+for a government/security communications account. No hashtags spam, 
+max 3 relevant hashtags at the end.
+
+Content: {source_text}"""
+
+    elif output_type == "exec_summary":
+        prompt = f"""Write a concise executive summary based on the 
+following content. 3-4 sentences, formal tone, suitable for senior 
+leadership briefing. Focus on what happened, impact, and what's being done.
+
+Content: {source_text}"""
+
+    else:
+        raise ValueError("Invalid output type")
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-120b",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.4,
+    )
+
+    return response.choices[0].message.content
