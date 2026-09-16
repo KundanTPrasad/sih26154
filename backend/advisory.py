@@ -2,9 +2,9 @@ import random
 import os
 import json
 from groq import Groq
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 
-load_dotenv()
+load_dotenv(find_dotenv())
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 def generate_advisory(source_text: str) -> dict:
@@ -38,7 +38,8 @@ Source text: {source_text}
     advisory_data["reference"] = f"ADV-2026-{random.randint(1000, 9999)}"
     return advisory_data
 
-    def generate_secondary_output(source_text: str, output_type: str) -> str:
+
+def generate_secondary_output(source_text: str, output_type: str) -> str:
     if output_type == "linkedin":
         prompt = f"""Write a professional LinkedIn post based on the 
 following content. Keep it under 150 words, engaging, and suitable 
