@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from './api'
+import transvexaMark from './assets/transvexa-mark.png'
 import './Dashboard.css'
 
 function Dashboard() {
@@ -55,8 +56,11 @@ function Dashboard() {
     <div className="workspace-shell">
       <header className="dashboard-header">
         <div className="header-left">
-          <span className="status-dot-small"></span>
-          <span className="header-title">Advisory dashboard</span>
+          <img src={transvexaMark} alt="Transvexa" className="dashboard-logo-img" />
+          <div className="header-brand-group">
+            <span className="header-brand-name">TRANSVEXA</span>
+            <span className="header-brand-badge">Advisory</span>
+          </div>
         </div>
         <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </header>

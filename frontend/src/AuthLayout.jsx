@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import transvexaMark from './assets/transvexa-mark.png'
 import './AuthLayout.css'
 
 function AuthLayout({ children }) {
@@ -43,19 +44,16 @@ function AuthLayout({ children }) {
         <div className="auth-branding-panel">
           <div className="branding-content">
             <div className="logo-container">
-              <svg className="leaf-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.5 4.5C14.5 2 9.5 2 6 5C2.5 8 2 13 4 16L11 23C11.5 23.5 12.5 23.5 13 23L19.5 16.5C21.5 14.5 22 10.5 19.5 7.5L17.5 4.5Z" opacity="0.8"/>
-                <path d="M12 23V5M12 12C14.5 12 17 9 17.5 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
-              </svg>
+              <img src={transvexaMark} alt="Transvexa Logo" className="brand-logo-img" />
             </div>
-            <h2>NTRO Advisory</h2>
-            <p>Content intelligence platform</p>
+            <h2 className="brand-title">TRANSVEXA</h2>
+            <p className="brand-tagline-sub">One Source. Infinite Formats.</p>
             
             <div className="decorative-line"></div>
             
             <p className="branding-tagline">
-              Smarter insights.<br />
-              Stronger decisions.
+              AI-Powered Advisory Generation<br />
+              & Intelligent Formatting
             </p>
           </div>
           <div className="landscape-illustration"></div>

@@ -17,22 +17,48 @@
 .header-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
-.status-dot-small {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--success);
-  flex-shrink: 0;
+.dashboard-logo-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(59, 130, 246, 0.25));
 }
 
-.header-title {
+.header-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-brand-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 0.14em;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme='dark'] .header-brand-name {
+  background: linear-gradient(135deg, #60a5fa 0%, #818cf8 50%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-brand-badge {
   font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 0.03em;
-  color: var(--text-secondary);
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: rgba(99, 102, 241, 0.1);
+  color: #6366f1;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(99, 102, 241, 0.2);
 }
 
 .logout-btn {

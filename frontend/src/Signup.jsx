@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthLayout from './AuthLayout'
 import './AuthForm.css'
+import api from './api'
 
 function Signup() {
   const [name, setName] = useState('')
@@ -18,7 +18,7 @@ function Signup() {
     e.preventDefault()
     setIsLoading(true)
     try {
-      const response = await axios.post('http://127.0.0.1:8000/signup', {
+      const response = await api.post('/signup', {
         name: name,
         email: email,
         password: password
@@ -44,7 +44,10 @@ function Signup() {
           <h2>
             Create account
             <svg className="heading-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <line x1="19" y1="8" x2="19" y2="14" />
+              <line x1="22" y1="11" x2="16" y2="11" />
             </svg>
           </h2>
           <p className="form-subtitle">Hey, enter your details to create a new account.</p>

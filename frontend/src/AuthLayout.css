@@ -72,35 +72,53 @@
 }
 
 .logo-container {
-  width: 56px;
-  height: 56px;
+  width: 68px;
+  height: 68px;
   background: var(--surface);
-  border-radius: 16px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 16px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.leaf-icon {
-  width: 28px;
-  height: 28px;
-  color: var(--accent);
+.logo-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px -5px rgba(59, 130, 246, 0.2);
 }
 
-.branding-content h2 {
+.brand-logo-img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(59, 130, 246, 0.25));
+}
+
+.brand-title {
   font-family: var(--font-display);
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: 0.16em;
   margin-bottom: 4px;
-  color: var(--accent);
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.branding-content p {
+[data-theme='dark'] .brand-title {
+  background: linear-gradient(135deg, #60a5fa 0%, #818cf8 50%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-tagline-sub {
   font-size: 13px;
   color: var(--text-secondary);
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.04em;
 }
 
 .decorative-line, .branding-tagline, .landscape-illustration {
@@ -133,23 +151,23 @@
   }
   
   .logo-container {
-    width: 72px;
-    height: 72px;
-    border-radius: 20px;
-    margin: 0 auto 24px;
+    width: 88px;
+    height: 88px;
+    border-radius: 24px;
+    margin: 0 auto 20px;
   }
 
-  .leaf-icon {
-    width: 36px;
-    height: 36px;
+  .brand-logo-img {
+    width: 58px;
+    height: 58px;
   }
 
-  .branding-content h2 {
+  .brand-title {
     font-size: 26px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
-  .branding-content p {
+  .brand-tagline-sub {
     font-size: 14px;
   }
 
