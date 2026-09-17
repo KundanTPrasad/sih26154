@@ -263,7 +263,7 @@ function FileDropZone({ onFileProcessed, uploading }) {
       {uploading ? (
         <div className="drop-zone-uploading">
           <span className="spinner" />
-          <span>Extracting text…</span>
+          <span>Processing document…</span>
         </div>
       ) : (
         <>
@@ -484,7 +484,7 @@ function Dashboard() {
       })
       setUploadId(data.upload_id)
       setSourceText(data.extracted_text)
-      setToast(`Extracted text from ${data.filename}`)
+      setToast(`Uploaded "${data.filename}" successfully`)
     } catch (err) {
       const detail = err.response?.data?.detail || 'Failed to process file'
       setError(detail)
@@ -589,7 +589,7 @@ function Dashboard() {
   const handleRemoveFile = () => {
     setFileInfo(null)
     setUploadId(null)
-    // keep sourceText so user can still use the extracted text
+    setSourceText('')
   }
 
   const handleLoadHistoryItem = (item) => {
@@ -678,28 +678,45 @@ function Dashboard() {
             )}
           </div>
 
-          {/* File Upload Zone */}
-          <FileDropZone onFileProcessed={handleFileUpload} uploading={uploading} />
+          {/* File Upload Zone - shown when no file uploaded */}
+          {!fileInfo && <FileDropZone onFileProcessed={handleFileUpload} uploading={uploading} />}
 
-          {/* File Info Card */}
-          {fileInfo && <FileInfoCard fileInfo={fileInfo} onRemove={handleRemoveFile} />}
+          {/* When a file is uploaded, show only the file details and ready notice (no extracted text tab/box) */}
+          {fileInfo && (
+            <div className="file-uploaded-container">
+              <FileInfoCard fileInfo={fileInfo} onRemove={handleRemoveFile} />
+              <div className="file-ready-notice">
+                <div className="file-ready-badge">
+                  <span className="file-ready-dot" />
+                  <span>Document loaded & ready for analysis</span>
+                </div>
+                <p className="file-ready-hint">
+                  Raw data has been ingested. Choose your output formats and click <strong>Generate</strong>.
+                </p>
+              </div>
+            </div>
+          )}
 
-          {/* Divider */}
-          <div className="source-divider">
-            <span className="source-divider-text">{fileInfo ? 'Extracted text (editable)' : 'Or paste text directly'}</span>
-          </div>
+          {/* Direct text input - only shown when no file is uploaded */}
+          {!fileInfo && (
+            <>
+              <div className="source-divider">
+                <span className="source-divider-text">Or paste text directly</span>
+              </div>
 
-          <textarea
-            ref={textareaRef}
-            className="source-textarea"
-            placeholder="Paste raw incident, report, or threat intel text here..."
-            value={sourceText}
-            onChange={(e) => setSourceText(e.target.value)}
-          />
-          <div className="source-meta">
-            <span>{wordCount} words · {charCount} chars</span>
-            <span className="kbd-hint"><kbd>⌘</kbd>+<kbd>Enter</kbd> to generate</span>
-          </div>
+              <textarea
+                ref={textareaRef}
+                className="source-textarea"
+                placeholder="Paste raw incident, report, or threat intel text here..."
+                value={sourceText}
+                onChange={(e) => setSourceText(e.target.value)}
+              />
+              <div className="source-meta">
+                <span>{wordCount} words · {charCount} chars</span>
+                <span className="kbd-hint"><kbd>⌘</kbd>+<kbd>Enter</kbd> to generate</span>
+              </div>
+            </>
+          )}
         </aside>
 
         <main className="panel panel-center">
