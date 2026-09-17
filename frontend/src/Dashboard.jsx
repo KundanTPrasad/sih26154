@@ -555,6 +555,43 @@ function Dashboard() {
   const [fileInfo, setFileInfo] = useState(null)
   const [uploadId, setUploadId] = useState(null)
 
+  const dragCounter = useRef(0)
+  const [panelDragActive, setPanelDragActive] = useState(false)
+
+  const handlePanelDragEnter = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    dragCounter.current += 1
+    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+      setPanelDragActive(true)
+    }
+  }
+
+  const handlePanelDragOver = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
+  const handlePanelDragLeave = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    dragCounter.current -= 1
+    if (dragCounter.current <= 0) {
+      dragCounter.current = 0
+      setPanelDragActive(false)
+    }
+  }
+
+  const handlePanelDrop = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    dragCounter.current = 0
+    setPanelDragActive(false)
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFileUpload(e.dataTransfer.files[0])
+    }
+  }
+
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
   }, [theme])
@@ -808,7 +845,21 @@ function Dashboard() {
       </header>
 
       <div className="workspace-body">
-        <aside className="panel panel-source">
+        <aside
+          className={`panel panel-source ${panelDragActive ? 'panel-drag-active' : ''}`}
+          onDragEnter={handlePanelDragEnter}
+          onDragOver={handlePanelDragOver}
+          onDragLeave={handlePanelDragLeave}
+          onDrop={handlePanelDrop}
+        >
+          {panelDragActive && (
+            <div className="panel-drag-overlay">
+              <div className="panel-drag-overlay-icon">{Icon.upload}</div>
+              <p className="panel-drag-overlay-title">Release File Anywhere to Upload</p>
+              <p className="panel-drag-overlay-sub">PDF, PNG, JPG, JPEG, WEBP — up to 10 MB</p>
+            </div>
+          )}
+
           <div className="panel-heading-row">
             <p className="panel-heading">SOURCE DOCUMENT</p>
             {fileInfo && (
