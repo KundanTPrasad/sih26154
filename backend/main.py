@@ -14,7 +14,10 @@ origins = [
 ]
 frontend_url = os.getenv("FRONTEND_URL")
 if frontend_url:
-    origins.append(frontend_url)
+    for url in frontend_url.split(","):
+        cleaned = url.strip().rstrip("/")
+        if cleaned and cleaned not in origins:
+            origins.append(cleaned)
 
 app.add_middleware(
     CORSMiddleware,
@@ -29,6 +32,11 @@ app.add_middleware(
 @app.get("/")
 def read_root():
     return {"message": "SIH26154 backend is running"}
+
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
 
 
 class SignupRequest(BaseModel):
