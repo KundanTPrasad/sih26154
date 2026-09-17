@@ -164,6 +164,8 @@ class AnalyzeRequest(BaseModel):
     source_text: str
     output_types: List[str]   # e.g. ["advisory", "linkedin", "exec_summary", "action_plan"]
     upload_id: Optional[int] = None
+    language: Optional[str] = "English"
+    audience_level: Optional[str] = "organization"  # "system", "organization", "people"
 
 
 @app.post("/analyze")
@@ -183,21 +185,24 @@ def analyze(data: AnalyzeRequest):
             detail=f"Invalid output types: {', '.join(invalid)}. Valid: {', '.join(valid_types)}"
         )
 
+    lang = data.language or "English"
+    level = data.audience_level or "organization"
+
     results = {}
     errors = {}
 
     for output_type in data.output_types:
         try:
             if output_type == "advisory":
-                output = generate_advisory(data.source_text)
+                output = generate_advisory(data.source_text, language=lang, audience_level=level)
                 content = json.dumps(output)
                 severity = output.get("severity")
             elif output_type == "action_plan":
-                output = generate_action_plan(data.source_text)
+                output = generate_action_plan(data.source_text, language=lang, audience_level=level)
                 content = json.dumps(output)
                 severity = output.get("priority")
             elif output_type in ("linkedin", "exec_summary"):
-                output = generate_secondary_output(data.source_text, output_type)
+                output = generate_secondary_output(data.source_text, output_type, language=lang, audience_level=level)
                 content = output
                 severity = None
             else:
@@ -211,6 +216,8 @@ def analyze(data: AnalyzeRequest):
                     output_type=output_type,
                     content=content,
                     severity=severity,
+                    language=lang,
+                    audience_level=level,
                 )
                 session.add(record)
                 session.commit()
@@ -219,6 +226,8 @@ def analyze(data: AnalyzeRequest):
             results[output_type] = {
                 "id": record.id,
                 "content": output,  # parsed object for advisory/action_plan, string for others
+                "language": lang,
+                "audience_level": level,
             }
 
         except Exception as e:
@@ -234,6 +243,8 @@ def analyze(data: AnalyzeRequest):
         "results": results,
         "errors": errors if errors else None,
         "upload_id": data.upload_id,
+        "language": lang,
+        "audience_level": level,
     }
 
 

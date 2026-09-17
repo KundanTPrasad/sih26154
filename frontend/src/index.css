@@ -1,19 +1,19 @@
 :root {
   /* Light Theme */
-  --bg: #FCFBF8; /* Off-white */
+  --bg: #FAFCFF;
   --surface: #ffffff;
-  --surface-alt: #F7F3EA; /* Warm cream */
-  --border: #e2e8f0;
-  --text-primary: #26302A; /* Charcoal text */
-  --text-secondary: #7A817C; /* Muted text */
-  --text-muted: #94a3b8;
+  --surface-alt: #F8FAFC;
+  --border: #E5E7EB;
+  --text-primary: #1E293B;
+  --text-secondary: #64748B;
+  --text-muted: #94A3B8;
   --text-on-alt: #ffffff;
-  --accent: #193B2A; /* Deep forest green */
-  --accent-hover: #244D38; /* Dark green */
-  --accent-light: #78927D; /* Sage green */
-  --success: #10b981;
-  --font-display: 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --accent: #567566; /* Elegant corporate dark green matching mockup */
+  --accent-hover: #456153;
+  --accent-light: #EBF3EF;
+  --success: #16A34A;
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 

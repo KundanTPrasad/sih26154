@@ -4,6 +4,7 @@ import os
 
 from dotenv import load_dotenv, find_dotenv
 from sqlmodel import SQLModel, Field, create_engine, Session, select
+from sqlalchemy import text
 from passlib.context import CryptContext
 from jose import jwt
 
@@ -52,11 +53,22 @@ class AnalysisResult(SQLModel, table=True):
     output_type: str        # "advisory", "linkedin", "exec_summary", "action_plan"
     content: str            # JSON string for structured, plain text for others
     severity: Optional[str] = Field(default=None)
+    language: Optional[str] = Field(default="English")
+    audience_level: Optional[str] = Field(default="organization")
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 
 # Create tables in Supabase PostgreSQL
 SQLModel.metadata.create_all(engine)
+
+# Auto-migrate missing columns for existing PostgreSQL tables
+with engine.connect() as conn:
+    try:
+        conn.execute(text("ALTER TABLE analysisresult ADD COLUMN IF NOT EXISTS language VARCHAR DEFAULT 'English';"))
+        conn.execute(text("ALTER TABLE analysisresult ADD COLUMN IF NOT EXISTS audience_level VARCHAR DEFAULT 'organization';"))
+        conn.commit()
+    except Exception as err:
+        print(f"Migration error: {err}")
 
 
 pwd_context = CryptContext(

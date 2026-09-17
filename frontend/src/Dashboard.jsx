@@ -48,13 +48,13 @@ const Icon = {
     </svg>
   ),
   doc: (
-    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
       <polyline points="14 2 14 8 20 8" />
     </svg>
   ),
   linkedin: (
-    <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
       <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z" />
     </svg>
   ),
@@ -88,18 +88,136 @@ const Icon = {
     </svg>
   ),
   plan: (
-    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M9 11l3 3L22 4" />
       <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
     </svg>
   ),
+  lightbulb: (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 18h6" />
+      <path d="M10 22h4" />
+      <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1.55.6 2.87 1.5 3.5.76.76 1.23 1.52 1.41 2.5" />
+    </svg>
+  ),
+  searchDoc: (
+    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <circle cx="11.5" cy="14.5" r="2.5" />
+      <path d="M13.25 16.25L15 18" />
+    </svg>
+  ),
+  sparkleOut: (
+    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z" />
+      <path d="M19 16l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z" />
+    </svg>
+  ),
+  shieldCheck: (
+    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      <path d="M9 12l2 2 4-4" />
+    </svg>
+  ),
+  cloudUpload: (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z" />
+      <path d="M12 13v-6" />
+      <path d="M9 10l3-3 3 3" />
+    </svg>
+  ),
+  circleCheck: (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="16 9 10.5 15 8 12.5" />
+    </svg>
+  ),
+  moon: (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  ),
+  sun: (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="5" />
+      <line x1="12" y1="1" x2="12" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+      <line x1="1" y1="12" x2="3" y2="12" />
+      <line x1="21" y1="12" x2="23" y2="12" />
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </svg>
+  ),
+  globe: (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="2" y1="12" x2="22" y2="12" />
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+    </svg>
+  ),
+  terminal: (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="4 17 10 11 4 5" />
+      <line x1="12" y1="19" x2="20" y2="19" />
+    </svg>
+  ),
+  building: (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
+      <line x1="9" y1="6" x2="9" y2="6.01" />
+      <line x1="15" y1="6" x2="15" y2="6.01" />
+      <line x1="9" y1="10" x2="9" y2="10.01" />
+      <line x1="15" y1="10" x2="15" y2="10.01" />
+      <line x1="9" y1="14" x2="9" y2="14.01" />
+      <line x1="15" y1="14" x2="15" y2="14.01" />
+      <line x1="9" y1="18" x2="15" y2="18" />
+    </svg>
+  ),
+  users: (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  ),
+  xCircle: (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="15" y1="9" x2="9" y2="15" />
+      <line x1="9" y1="9" x2="15" y2="15" />
+    </svg>
+  ),
 }
 
+const INDIAN_LANGUAGES = [
+  { code: 'English', label: 'English', native: 'English' },
+  { code: 'Hindi', label: 'Hindi', native: 'हिन्दी' },
+  { code: 'Bengali', label: 'Bengali', native: 'বাংলা' },
+  { code: 'Tamil', label: 'Tamil', native: 'தமிழ்' },
+  { code: 'Telugu', label: 'Telugu', native: 'తెలుగు' },
+  { code: 'Marathi', label: 'Marathi', native: 'मराठी' },
+  { code: 'Gujarati', label: 'Gujarati', native: 'ગુજરાતી' },
+  { code: 'Kannada', label: 'Kannada', native: 'ಕನ್ನಡ' },
+  { code: 'Malayalam', label: 'Malayalam', native: 'മലയാളം' },
+  { code: 'Punjabi', label: 'Punjabi', native: 'ਪੰਜਾਬੀ' },
+  { code: 'Odia', label: 'Odia', native: 'ଓଡ଼ିଆ' },
+]
+
+const AUDIENCE_LEVELS = [
+  { id: 'system', label: 'System Level', sub: 'SOC & Tech Ops', icon: Icon.terminal },
+  { id: 'organization', label: 'Organization Level', sub: 'Execs & State Agencies', icon: Icon.building },
+  { id: 'people', label: 'People Level', sub: 'Public & Citizens', icon: Icon.users },
+]
+
 const OUTPUT_META = {
-  advisory: { label: 'Advisory', icon: Icon.doc },
-  linkedin: { label: 'LinkedIn post', icon: Icon.linkedin },
-  exec_summary: { label: 'Executive summary', icon: Icon.doc },
-  action_plan: { label: 'Action plan', icon: Icon.plan },
+  advisory: { label: 'Advisory', desc: 'Detailed advisory with key findings', icon: Icon.doc },
+  linkedin: { label: 'LinkedIn post', desc: 'Short, engaging post for LinkedIn', icon: Icon.linkedin },
+  exec_summary: { label: 'Executive summary', desc: 'Concise summary for decision makers', icon: Icon.doc },
+  action_plan: { label: 'Action plan', desc: 'Recommended actions and next steps', icon: Icon.plan },
 }
 
 function loadHistory() {
@@ -414,6 +532,9 @@ function ActionPlanCard({ plan }) {
 
 function Dashboard() {
   const navigate = useNavigate()
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light')
+  const [selectedLanguage, setSelectedLanguage] = useState('English')
+  const [audienceLevel, setAudienceLevel] = useState('organization')
   const [sourceText, setSourceText] = useState('')
   const [advisory, setAdvisory] = useState(null)
   const [actionPlan, setActionPlan] = useState(null)
@@ -433,6 +554,17 @@ function Dashboard() {
   const [toast, setToast] = useState('')
   const [fileInfo, setFileInfo] = useState(null)
   const [uploadId, setUploadId] = useState(null)
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    const next = theme === 'light' ? 'dark' : 'light'
+    setTheme(next)
+    localStorage.setItem('theme', next)
+    document.documentElement.setAttribute('data-theme', next)
+  }
 
   const hasResults = Boolean(advisory || actionPlan || secondaryResults.linkedin || secondaryResults.exec_summary)
 
@@ -517,6 +649,8 @@ function Dashboard() {
         source_text: sourceText,
         output_types: outputTypes,
         upload_id: uploadId,
+        language: selectedLanguage,
+        audience_level: audienceLevel,
       })
 
       const { results, errors: genErrors } = response.data
@@ -565,7 +699,7 @@ function Dashboard() {
     } finally {
       setLoading(false)
     }
-  }, [sourceText, loading, selectedOutputs, uploadId, history, fileInfo])
+  }, [sourceText, loading, selectedOutputs, uploadId, history, fileInfo, selectedLanguage, audienceLevel])
 
   useEffect(() => {
     const handler = (e) => {
@@ -648,7 +782,6 @@ function Dashboard() {
           <img src={transvexaMark} alt="Transvexa" className="dashboard-logo-img" />
           <div className="header-brand-group">
             <span className="header-brand-name">TRANSVEXA</span>
-            <span className="header-brand-badge">Advisory</span>
           </div>
         </div>
         <div className="header-right">
@@ -662,6 +795,14 @@ function Dashboard() {
             <span>History</span>
             {history.length > 0 && <span className="history-count">{history.length}</span>}
           </button>
+          <button
+            className="header-icon-btn theme-toggle-btn"
+            onClick={toggleTheme}
+            type="button"
+            title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+          >
+            {theme === 'light' ? Icon.moon : Icon.sun}
+          </button>
           <button className="logout-btn" onClick={handleLogout}>Logout</button>
         </div>
       </header>
@@ -669,7 +810,7 @@ function Dashboard() {
       <div className="workspace-body">
         <aside className="panel panel-source">
           <div className="panel-heading-row">
-            <p className="panel-heading">Source Document</p>
+            <p className="panel-heading">SOURCE DOCUMENT</p>
             {fileInfo && (
               <button className="text-btn" onClick={handleClear} type="button">
                 {Icon.clear}
@@ -697,15 +838,15 @@ function Dashboard() {
                 </p>
                 <div className="compliance-features">
                   <div className="compliance-item">
-                    <span className="compliance-dot" />
+                    <span className="compliance-check-icon">{Icon.circleCheck}</span>
                     <span>Upload official incident reports, audit logs, or raw data captures.</span>
                   </div>
                   <div className="compliance-item">
-                    <span className="compliance-dot" />
+                    <span className="compliance-check-icon">{Icon.circleCheck}</span>
                     <span>Supported formats: <strong>PDF, PNG, JPG, JPEG, WEBP</strong> (up to 10 MB).</span>
                   </div>
                   <div className="compliance-item">
-                    <span className="compliance-dot" />
+                    <span className="compliance-check-icon">{Icon.circleCheck}</span>
                     <span>Data is extracted and processed directly by AI into selected official outputs.</span>
                   </div>
                 </div>
@@ -788,18 +929,66 @@ function Dashboard() {
           )}
 
           {!showHistory && !hasResults && !loading && (
-            <div className="empty-state">
-              <div className="empty-state-icon">{Icon.spark}</div>
-              <p className="panel-heading">Generated output</p>
-              <p className="empty-text">Upload a file or paste source content and select output types to begin.</p>
+            <div className="pro-empty-state">
+              <div className="pro-empty-hero">
+                <div className="pro-hero-circle">
+                  <svg viewBox="0 0 64 64" width="56" height="56" fill="none" stroke="currentColor">
+                    <rect x="18" y="12" width="28" height="38" rx="3" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="1.5" />
+                    <line x1="24" y1="20" x2="40" y2="20" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" />
+                    <line x1="24" y1="26" x2="40" y2="26" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" />
+                    <line x1="24" y1="32" x2="34" y2="32" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                  <div className="pro-hero-badge">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="12" y1="19" x2="12" y2="5" />
+                      <polyline points="5 12 12 5 19 12" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <h2 className="pro-empty-title">Upload a document to get started</h2>
+              <p className="pro-empty-subtitle">
+                Our AI will analyze your document and generate the selected outputs on the right.
+              </p>
+
+              <div className="pro-features-grid">
+                <div className="pro-feature-card">
+                  <div className="pro-feature-icon">{Icon.searchDoc}</div>
+                  <span className="pro-feature-text">Extract key information</span>
+                </div>
+                <div className="pro-feature-card">
+                  <div className="pro-feature-icon">{Icon.sparkleOut}</div>
+                  <span className="pro-feature-text">Generate structured outputs</span>
+                </div>
+                <div className="pro-feature-card">
+                  <div className="pro-feature-icon">{Icon.shieldCheck}</div>
+                  <span className="pro-feature-text">Support safer, data-driven decisions</span>
+                </div>
+              </div>
+
+              <div className="pro-formats-section">
+                <div className="pro-formats-divider">
+                  <span>SUPPORTED FORMATS</span>
+                </div>
+                <div className="pro-formats-tags">
+                  <span className="pro-tag">PDF</span>
+                  <span className="pro-tag">PNG</span>
+                  <span className="pro-tag">JPG</span>
+                  <span className="pro-tag">JPEG</span>
+                  <span className="pro-tag">WEBP</span>
+                  <span className="pro-tag-sep">|</span>
+                  <span className="pro-tag-hint">Max size: 10 MB</span>
+                </div>
+              </div>
             </div>
           )}
 
           {!showHistory && loading && (
             <div className="loading-state">
               <div className="loading-header">
-                <span className="spinner" />
-                <span>Generating output…</span>
+                <span className="spinner spinner-dark" />
+                <span>AI is analyzing document and generating outputs...</span>
               </div>
               <SkeletonCard />
             </div>
@@ -826,10 +1015,18 @@ function Dashboard() {
               {activeTab === 'advisory' && advisory && (
                 <div className="advisory-card">
                   <div className="advisory-card-header">
-                    <span className="advisory-ref">{advisory.reference}</span>
+                    <div className="advisory-ref-group">
+                      <span className="advisory-ref">{advisory.reference}</span>
+                      <span className={`level-pill-tag level-${audienceLevel}`}>
+                        {audienceLevel === 'system' ? 'SOC / System' : audienceLevel === 'people' ? 'Public / Citizen' : 'Organization'}
+                      </span>
+                      {selectedLanguage !== 'English' && (
+                        <span className="lang-pill-tag">{selectedLanguage}</span>
+                      )}
+                    </div>
                     <div className="advisory-card-actions">
-                      <span className={`severity-badge severity-${advisory.severity.toLowerCase()}`}>
-                        {advisory.severity}
+                      <span className={`severity-badge severity-${(advisory.severity || 'high').toLowerCase()}`}>
+                        {advisory.severity || 'HIGH'}
                       </span>
                       <CopyButton text={formatAdvisoryAsText(advisory)} />
                       <button className="icon-btn" onClick={handleDownloadAdvisory} type="button">
@@ -854,18 +1051,128 @@ function Dashboard() {
                   <div className="advisory-section">
                     <p className="advisory-label">Recommended actions</p>
                     <ul className="advisory-actions">
-                      {advisory.recommended_actions.map((action, index) => (
+                      {advisory.recommended_actions?.map((action, index) => (
                         <li key={index}>{action}</li>
                       ))}
                     </ul>
                   </div>
+
+                  {/* ---------- Level 1: System Level Details ---------- */}
+                  {advisory.technical_details && (
+                    <div className="advisory-level-box system-box">
+                      <div className="level-box-title">
+                        {Icon.terminal}
+                        <span>System Level Technical Intelligence</span>
+                      </div>
+                      {advisory.technical_details.cve_ids?.length > 0 && (
+                        <div className="tech-meta-row">
+                          <span className="tech-meta-label">CVE Identifiers:</span>
+                          <div className="chips-wrap">
+                            {advisory.technical_details.cve_ids.map((cve, i) => (
+                              <span key={i} className="cve-chip">{cve}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {advisory.technical_details.mitre_attack?.length > 0 && (
+                        <div className="tech-meta-row">
+                          <span className="tech-meta-label">MITRE ATT&CK:</span>
+                          <div className="chips-wrap">
+                            {advisory.technical_details.mitre_attack.map((m, i) => (
+                              <span key={i} className="mitre-chip">{m}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {advisory.technical_details.iocs?.length > 0 && (
+                        <div className="tech-meta-row">
+                          <span className="tech-meta-label">Indicators of Compromise (IOCs):</span>
+                          <div className="iocs-list">
+                            {advisory.technical_details.iocs.map((ioc, i) => (
+                              <code key={i} className="ioc-code">{ioc}</code>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {advisory.technical_details.affected_ports && (
+                        <div className="tech-meta-row">
+                          <span className="tech-meta-label">Ports & Protocols:</span>
+                          <span className="tech-meta-val">{advisory.technical_details.affected_ports}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* ---------- Level 2: Organization Executive Breakdown ---------- */}
+                  {advisory.executive_breakdown && (
+                    <div className="advisory-level-box org-box">
+                      <div className="level-box-title">
+                        {Icon.building}
+                        <span>Organization & Compliance Impact</span>
+                      </div>
+                      <div className="org-grid">
+                        <div className="org-card">
+                          <span className="org-card-label">Compliance Risk</span>
+                          <span className="org-card-val">{advisory.executive_breakdown.compliance_risk}</span>
+                        </div>
+                        <div className="org-card">
+                          <span className="org-card-label">Resource Requirement</span>
+                          <span className="org-card-val">{advisory.executive_breakdown.resource_impact}</span>
+                        </div>
+                        <div className="org-card">
+                          <span className="org-card-label">Action Urgency</span>
+                          <span className="org-card-val">{advisory.executive_breakdown.urgency}</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* ---------- Level 3: Citizen Guidelines ---------- */}
+                  {advisory.citizen_guidelines && (
+                    <div className="advisory-level-box people-box">
+                      <div className="level-box-title">
+                        {Icon.users}
+                        <span>Citizen & Public Safety Guidelines</span>
+                      </div>
+                      <div className="dos-donts-grid">
+                        {advisory.citizen_guidelines.dos?.length > 0 && (
+                          <div className="dos-box">
+                            <p className="dos-title">{Icon.circleCheck} Recommended Do's</p>
+                            <ul>
+                              {advisory.citizen_guidelines.dos.map((item, i) => (
+                                <li key={i}>{item}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        {advisory.citizen_guidelines.donts?.length > 0 && (
+                          <div className="donts-box">
+                            <p className="donts-title">{Icon.xCircle} Crucial Don'ts</p>
+                            <ul>
+                              {advisory.citizen_guidelines.donts.map((item, i) => (
+                                <li key={i}>{item}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                      {advisory.citizen_guidelines.reporting_helpline && (
+                        <div className="helpline-notice">
+                          <span>Official Reporting Helpline / Portal: <strong>{advisory.citizen_guidelines.reporting_helpline}</strong></span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
 
               {activeTab === 'action_plan' && actionPlan && (
                 <div className="advisory-card">
                   <div className="advisory-card-header">
-                    <span className="advisory-ref">Action Plan</span>
+                    <div className="advisory-ref-group">
+                      <span className="advisory-ref">Action Plan</span>
+                      <span className="lang-pill-tag">{selectedLanguage}</span>
+                    </div>
                     <div className="advisory-card-actions">
                       <CopyButton text={formatActionPlanAsText(actionPlan)} />
                       <button className="icon-btn" onClick={handleDownloadActionPlan} type="button">
@@ -881,7 +1188,7 @@ function Dashboard() {
               {activeTab === 'linkedin' && secondaryResults.linkedin && (
                 <div className="secondary-card">
                   <div className="secondary-card-head">
-                    <p className="advisory-label" style={{ marginBottom: 0 }}>LinkedIn post</p>
+                    <p className="advisory-label" style={{ marginBottom: 0 }}>LinkedIn post ({selectedLanguage})</p>
                     <CopyButton text={secondaryResults.linkedin} />
                   </div>
                   <p className="advisory-text">{secondaryResults.linkedin}</p>
@@ -891,7 +1198,7 @@ function Dashboard() {
               {activeTab === 'exec_summary' && secondaryResults.exec_summary && (
                 <div className="secondary-card">
                   <div className="secondary-card-head">
-                    <p className="advisory-label" style={{ marginBottom: 0 }}>Executive summary</p>
+                    <p className="advisory-label" style={{ marginBottom: 0 }}>Executive summary ({selectedLanguage})</p>
                     <CopyButton text={secondaryResults.exec_summary} />
                   </div>
                   <p className="advisory-text">{secondaryResults.exec_summary}</p>
@@ -902,19 +1209,84 @@ function Dashboard() {
         </main>
 
         <aside className="panel panel-outputs">
-          <p className="panel-heading">Outputs</p>
+          <p className="panel-heading">OUTPUT CONFIGURATION</p>
 
-          {Object.keys(OUTPUT_META).map((key) => (
-            <label className="output-option" key={key}>
-              <input
-                type="checkbox"
-                checked={selectedOutputs[key]}
-                onChange={(e) => setSelectedOutputs({ ...selectedOutputs, [key]: e.target.checked })}
-              />
-              <span className="output-option-icon">{OUTPUT_META[key].icon}</span>
-              <span>{OUTPUT_META[key].label}</span>
+          {/* Regional Language Selector */}
+          <div className="selector-group">
+            <label className="selector-group-label">
+              {Icon.globe}
+              <span>TARGET REGIONAL LANGUAGE</span>
             </label>
-          ))}
+            <select
+              className="language-select-dropdown"
+              value={selectedLanguage}
+              onChange={(e) => setSelectedLanguage(e.target.value)}
+            >
+              {INDIAN_LANGUAGES.map((lang) => (
+                <option key={lang.code} value={lang.code}>
+                  {lang.label} ({lang.native})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* 3-Level Audience Selector */}
+          <div className="selector-group">
+            <label className="selector-group-label">
+              <span>AUDIENCE DISTRIBUTION LEVEL</span>
+            </label>
+            <div className="audience-pills-list">
+              {AUDIENCE_LEVELS.map((lvl) => {
+                const isSelected = audienceLevel === lvl.id
+                return (
+                  <button
+                    key={lvl.id}
+                    type="button"
+                    className={`audience-pill-btn ${isSelected ? 'active' : ''}`}
+                    onClick={() => setAudienceLevel(lvl.id)}
+                  >
+                    <span className="pill-icon">{lvl.icon}</span>
+                    <div className="pill-info">
+                      <span className="pill-title">{lvl.label}</span>
+                      <span className="pill-sub">{lvl.sub}</span>
+                    </div>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          <p className="panel-heading" style={{ marginTop: '16px' }}>FORMAT OUTPUTS</p>
+
+          <div className="output-options-list">
+            {Object.keys(OUTPUT_META).map((key) => {
+              const isChecked = selectedOutputs[key]
+              const meta = OUTPUT_META[key]
+              return (
+                <label className={`output-option-card ${isChecked ? 'selected' : ''}`} key={key}>
+                  <div className="output-checkbox-wrapper">
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={(e) => setSelectedOutputs({ ...selectedOutputs, [key]: e.target.checked })}
+                    />
+                    <div className={`custom-checkbox ${isChecked ? 'checked' : ''}`}>
+                      {isChecked && (
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      )}
+                    </div>
+                  </div>
+                  <div className="output-option-icon-box">{meta.icon}</div>
+                  <div className="output-option-content">
+                    <span className="output-option-title">{meta.label}</span>
+                    <span className="output-option-desc">{meta.desc}</span>
+                  </div>
+                </label>
+              )
+            })}
+          </div>
 
           <button
             className="generate-btn"
@@ -924,15 +1296,26 @@ function Dashboard() {
           >
             {loading ? (
               <>
-                <span className="spinner spinner-dark" />
-                Generating...
+                <span className="spinner spinner-light" />
+                <span>Generating {selectedLanguage}...</span>
               </>
-            ) : !fileInfo ? (
-              'Upload Document to Run'
             ) : (
-              'Generate'
+              <>
+                {Icon.cloudUpload}
+                <span>{fileInfo ? `Run Analysis (${selectedLanguage})` : 'Upload Document to Run'}</span>
+              </>
             )}
           </button>
+
+          <div className="outputs-tip-box">
+            <div className="tip-header">
+              <div className="tip-icon">{Icon.lightbulb}</div>
+              <span className="tip-title">Tip</span>
+            </div>
+            <p className="tip-text">
+              Outputs will be generated natively in {selectedLanguage} tailored for {audienceLevel === 'system' ? 'SOC & Tech' : audienceLevel === 'people' ? 'Citizen Safety' : 'Executive/State'} audience.
+            </p>
+          </div>
         </aside>
       </div>
 
