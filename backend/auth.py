@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from typing import Optional
 import os
 
 from dotenv import load_dotenv, find_dotenv
@@ -29,6 +30,28 @@ class User(SQLModel, table=True):
     name: str
     email: str = Field(unique=True)
     password_hash: str
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+
+class Upload(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    user_id: Optional[int] = Field(default=None, foreign_key="user.id")
+    filename: str
+    file_type: str          # "image" or "pdf"
+    file_size: int          # bytes
+    page_count: int = Field(default=1)
+    extracted_text: str     # raw extracted text
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+
+class AnalysisResult(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    upload_id: Optional[int] = Field(default=None, foreign_key="upload.id")
+    user_id: Optional[int] = Field(default=None, foreign_key="user.id")
+    source_text: str = Field(default="")
+    output_type: str        # "advisory", "linkedin", "exec_summary", "action_plan"
+    content: str            # JSON string for structured, plain text for others
+    severity: Optional[str] = Field(default=None)
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 

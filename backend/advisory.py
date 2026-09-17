@@ -65,3 +65,40 @@ Content: {source_text}"""
     )
 
     return response.choices[0].message.content
+
+
+def generate_action_plan(source_text: str) -> dict:
+    """Generate a structured incident response / action plan."""
+    prompt = f"""You are a cybersecurity incident response planner.
+
+Analyze the text below and respond ONLY with valid JSON in this exact 
+structure, no extra text before or after:
+
+{{
+  "title": "short descriptive title for this action plan",
+  "priority": "Critical, High, Medium, or Low",
+  "immediate_actions": [
+    {{"action": "description", "responsible": "team/role", "deadline": "timeframe"}}
+  ],
+  "short_term_actions": [
+    {{"action": "description", "responsible": "team/role", "deadline": "timeframe"}}
+  ],
+  "long_term_actions": [
+    {{"action": "description", "responsible": "team/role", "deadline": "timeframe"}}
+  ],
+  "resources_needed": ["resource 1", "resource 2"],
+  "estimated_timeline": "overall timeline estimate",
+  "risk_if_not_addressed": "what happens if no action is taken"
+}}
+
+Source text: {source_text}
+"""
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-120b",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.3,
+    )
+
+    raw_output = response.choices[0].message.content
+    return json.loads(raw_output)
