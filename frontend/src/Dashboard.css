@@ -1377,3 +1377,85 @@ kbd {
   margin: 0;
   line-height: 1.4;
 }
+
+/* ============================================================
+   Official Compliance Notice (when no file uploaded)
+   ============================================================ */
+
+.source-upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.source-compliance-notice {
+  background: var(--surface-subtle, rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.compliance-notice-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent, #60a5fa);
+  margin-bottom: 8px;
+  letter-spacing: 0.02em;
+}
+
+.compliance-notice-desc {
+  font-size: 12px;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.compliance-features {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.compliance-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.4;
+}
+
+.compliance-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent, #3b82f6);
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.replace-file-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted, #94a3b8);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.replace-file-btn:hover {
+  color: var(--text, #f8fafc);
+  border-color: var(--accent, #3b82f6);
+  background: rgba(59, 130, 246, 0.05);
+}

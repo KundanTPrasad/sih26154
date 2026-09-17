@@ -433,7 +433,6 @@ function Dashboard() {
   const [toast, setToast] = useState('')
   const [fileInfo, setFileInfo] = useState(null)
   const [uploadId, setUploadId] = useState(null)
-  const textareaRef = useRef(null)
 
   const hasResults = Boolean(advisory || actionPlan || secondaryResults.linkedin || secondaryResults.exec_summary)
 
@@ -495,7 +494,11 @@ function Dashboard() {
 
   // ---------- Generate using unified /analyze endpoint ----------
   const handleGenerate = useCallback(async () => {
-    if (!sourceText.trim() || loading) return
+    if (loading) return
+    if (!fileInfo || !sourceText.trim()) {
+      setError('Please upload an official document (PDF or Image) to generate analysis.')
+      return
+    }
     setError('')
     setAdvisory(null)
     setActionPlan(null)
@@ -638,9 +641,6 @@ function Dashboard() {
     setToast('Action plan downloaded')
   }
 
-  const wordCount = sourceText.trim() ? sourceText.trim().split(/\s+/).length : 0
-  const charCount = sourceText.length
-
   return (
     <div className="workspace-shell">
       <header className="dashboard-header">
@@ -669,8 +669,8 @@ function Dashboard() {
       <div className="workspace-body">
         <aside className="panel panel-source">
           <div className="panel-heading-row">
-            <p className="panel-heading">Source</p>
-            {(sourceText || fileInfo) && (
+            <p className="panel-heading">Source Document</p>
+            {fileInfo && (
               <button className="text-btn" onClick={handleClear} type="button">
                 {Icon.clear}
                 <span>Clear</span>
@@ -679,43 +679,60 @@ function Dashboard() {
           </div>
 
           {/* File Upload Zone - shown when no file uploaded */}
-          {!fileInfo && <FileDropZone onFileProcessed={handleFileUpload} uploading={uploading} />}
+          {!fileInfo ? (
+            <div className="source-upload-section">
+              <FileDropZone onFileProcessed={handleFileUpload} uploading={uploading} />
 
-          {/* When a file is uploaded, show only the file details and ready notice (no extracted text tab/box) */}
-          {fileInfo && (
+              <div className="source-compliance-notice">
+                <div className="compliance-notice-header">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="16" x2="12" y2="12" />
+                    <line x1="12" y1="8" x2="12.01" y2="8" />
+                  </svg>
+                  <span>Official Document Ingestion Only</span>
+                </div>
+                <p className="compliance-notice-desc">
+                  To ensure audit compliance and official verification, direct manual text input is disabled.
+                </p>
+                <div className="compliance-features">
+                  <div className="compliance-item">
+                    <span className="compliance-dot" />
+                    <span>Upload official incident reports, audit logs, or raw data captures.</span>
+                  </div>
+                  <div className="compliance-item">
+                    <span className="compliance-dot" />
+                    <span>Supported formats: <strong>PDF, PNG, JPG, JPEG, WEBP</strong> (up to 10 MB).</span>
+                  </div>
+                  <div className="compliance-item">
+                    <span className="compliance-dot" />
+                    <span>Data is extracted and processed directly by AI into selected official outputs.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
             <div className="file-uploaded-container">
               <FileInfoCard fileInfo={fileInfo} onRemove={handleRemoveFile} />
               <div className="file-ready-notice">
                 <div className="file-ready-badge">
                   <span className="file-ready-dot" />
-                  <span>Document loaded & ready for analysis</span>
+                  <span>Document Verified & Ready</span>
                 </div>
                 <p className="file-ready-hint">
-                  Raw data has been ingested. Choose your output formats and click <strong>Generate</strong>.
+                  Raw data has been validated. Select your required output formats in the Outputs panel and click <strong>Generate</strong>.
                 </p>
               </div>
+
+              <button
+                className="secondary-btn replace-file-btn"
+                onClick={handleRemoveFile}
+                type="button"
+              >
+                {Icon.upload}
+                <span>Upload a different document</span>
+              </button>
             </div>
-          )}
-
-          {/* Direct text input - only shown when no file is uploaded */}
-          {!fileInfo && (
-            <>
-              <div className="source-divider">
-                <span className="source-divider-text">Or paste text directly</span>
-              </div>
-
-              <textarea
-                ref={textareaRef}
-                className="source-textarea"
-                placeholder="Paste raw incident, report, or threat intel text here..."
-                value={sourceText}
-                onChange={(e) => setSourceText(e.target.value)}
-              />
-              <div className="source-meta">
-                <span>{wordCount} words · {charCount} chars</span>
-                <span className="kbd-hint"><kbd>⌘</kbd>+<kbd>Enter</kbd> to generate</span>
-              </div>
-            </>
           )}
         </aside>
 
@@ -902,13 +919,16 @@ function Dashboard() {
           <button
             className="generate-btn"
             onClick={handleGenerate}
-            disabled={loading || !sourceText.trim()}
+            disabled={loading || !fileInfo}
+            title={!fileInfo ? 'Upload an official document to generate analysis' : ''}
           >
             {loading ? (
               <>
                 <span className="spinner spinner-dark" />
                 Generating...
               </>
+            ) : !fileInfo ? (
+              'Upload Document to Run'
             ) : (
               'Generate'
             )}
