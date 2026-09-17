@@ -1,12 +1,12 @@
 from datetime import datetime, timedelta
 import os
 
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 from sqlmodel import SQLModel, Field, create_engine, Session, select
 from passlib.context import CryptContext
 from jose import jwt
 
-load_dotenv()
+load_dotenv(find_dotenv())
 
 # Supabase PostgreSQL
 DATABASE_URL = os.getenv("DATABASE_URL")
