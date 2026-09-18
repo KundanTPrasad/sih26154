@@ -202,14 +202,14 @@
 }
 
 .panel-outputs {
-  width: 320px;
+  width: 345px;
   flex-shrink: 0;
   background: #FFFFFF;
   border-left: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  padding: 18px 16px;
+  padding: 18px 16px 36px 16px;
   box-sizing: border-box;
 }
 
@@ -1047,7 +1047,7 @@ kbd {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  margin-bottom: 4px;
+  margin-bottom: 10px;
 }
 
 .pulse-dot {
