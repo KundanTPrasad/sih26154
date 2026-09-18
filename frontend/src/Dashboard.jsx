@@ -233,9 +233,9 @@ const INDIAN_LANGUAGES = [
 ]
 
 const AUDIENCE_LEVELS = [
-  { id: 'system', label: 'System Level', sub: 'SOC & Tech Ops', icon: Icon.terminal },
-  { id: 'organization', label: 'Organization Level', sub: 'Execs & State Agencies', icon: Icon.building },
-  { id: 'people', label: 'People Level', sub: 'Public & Citizens', icon: Icon.users },
+  { id: 'system', label: 'System Level', short: 'System', sub: 'SOC & Tech Ops', icon: Icon.terminal },
+  { id: 'organization', label: 'Organization Level', short: 'Org', sub: 'Execs & State Agencies', icon: Icon.building },
+  { id: 'people', label: 'People Level', short: 'Citizen', sub: 'Public & Citizens', icon: Icon.users },
 ]
 
 const TONE_OPTIONS = [
@@ -979,6 +979,50 @@ function Dashboard() {
     setUploadId(null)
     setToast(`Loaded scenario: ${preset.title}`)
   }
+
+  const handleSelectAllOutputs = () => {
+    const all = {}
+    Object.keys(OUTPUT_META).forEach((k) => { all[k] = true })
+    setSelectedOutputs(all)
+    setToast('All 8 deliverable formats selected')
+  }
+
+  const handleSelectCoreOutputs = () => {
+    setSelectedOutputs({
+      advisory: true,
+      exec_summary: true,
+      action_plan: true,
+      presentation: true,
+      linkedin: false,
+      twitter: false,
+      video: false,
+      infographic: false,
+    })
+    setToast('Core 4 tactical formats selected')
+  }
+
+  const handleSelectMediaOutputs = () => {
+    setSelectedOutputs({
+      advisory: false,
+      exec_summary: false,
+      action_plan: false,
+      presentation: false,
+      linkedin: true,
+      twitter: true,
+      video: true,
+      infographic: true,
+    })
+    setToast('Citizen & Media formats selected')
+  }
+
+  const handleClearAllOutputs = () => {
+    const none = {}
+    Object.keys(OUTPUT_META).forEach((k) => { none[k] = false })
+    setSelectedOutputs(none)
+    setToast('Output selection cleared')
+  }
+
+  const activeOutputCount = Object.values(selectedOutputs).filter(Boolean).length
 
   const handleExportMissionDossier = async () => {
     setExportingDossier(true)
@@ -1911,16 +1955,19 @@ function Dashboard() {
         </main>
 
         <aside className="panel panel-outputs">
-          <p className="panel-heading">OUTPUT CONFIGURATION</p>
+          <div className="outputs-header-row">
+            <p className="panel-heading">OUTPUT CONFIGURATION</p>
+            <span className="live-config-badge">{activeOutputCount}/8 Active</span>
+          </div>
 
           {/* Regional Language Selector */}
-          <div className="selector-group">
+          <div className="selector-group compact-group">
             <label className="selector-group-label">
               {Icon.globe}
               <span>TARGET REGIONAL LANGUAGE</span>
             </label>
             <select
-              className="language-select-dropdown"
+              className="language-select-dropdown compact-select"
               value={selectedLanguage}
               onChange={(e) => setSelectedLanguage(e.target.value)}
             >
@@ -1932,149 +1979,165 @@ function Dashboard() {
             </select>
           </div>
 
-          {/* 3-Level Audience Selector */}
-          <div className="selector-group">
-            <label className="selector-group-label">
-              <span>AUDIENCE DISTRIBUTION LEVEL</span>
-            </label>
-            <div className="audience-pills-list">
+          {/* 3-Level Audience Selector as Compact Segmented Control */}
+          <div className="selector-group compact-group">
+            <div className="selector-group-label-row">
+              <label className="selector-group-label">
+                <span>AUDIENCE TIER</span>
+              </label>
+              <span className="audience-current-tag">
+                {audienceLevel === 'system' ? 'SOC & Tech' : audienceLevel === 'people' ? 'Citizen' : 'Gov & Exec'}
+              </span>
+            </div>
+            <div className="audience-segmented-bar">
               {AUDIENCE_LEVELS.map((lvl) => {
                 const isSelected = audienceLevel === lvl.id
                 return (
                   <button
                     key={lvl.id}
                     type="button"
-                    className={`audience-pill-btn ${isSelected ? 'active' : ''}`}
+                    className={`audience-segment-btn ${isSelected ? 'active' : ''}`}
                     onClick={() => setAudienceLevel(lvl.id)}
+                    title={`${lvl.label} — ${lvl.sub}`}
                   >
-                    <span className="pill-icon">{lvl.icon}</span>
-                    <div className="pill-info">
-                      <span className="pill-title">{lvl.label}</span>
-                      <span className="pill-sub">{lvl.sub}</span>
-                    </div>
+                    <span className="segment-icon">{lvl.icon}</span>
+                    <span className="segment-text">{lvl.short}</span>
                   </button>
                 )
               })}
             </div>
           </div>
 
-          {/* Tone Selector */}
-          <div className="selector-group">
-            <label className="selector-group-label">
-              <span>TONE OF COMMUNICATION</span>
-            </label>
-            <select
-              className="language-select-dropdown"
-              value={tone}
-              onChange={(e) => setTone(e.target.value)}
-            >
-              {TONE_OPTIONS.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
-          </div>
+          {/* Deliverable Formats Grid with Quick Preset Chips */}
+          <div className="deliverables-section">
+            <div className="deliverables-header-row">
+              <span className="deliverables-title">FORMAT OUTPUTS</span>
+              <div className="bulk-chips-row">
+                <button type="button" className="bulk-chip-btn" onClick={handleSelectAllOutputs} title="Select all 8 formats">All</button>
+                <button type="button" className="bulk-chip-btn" onClick={handleSelectCoreOutputs} title="Advisory, Exec Summary, Action Plan, Slides">Core</button>
+                <button type="button" className="bulk-chip-btn" onClick={handleSelectMediaOutputs} title="LinkedIn, Twitter, Video, Infographic">Media</button>
+                <button type="button" className="bulk-chip-btn text-muted" onClick={handleClearAllOutputs} title="Deselect all">Clear</button>
+              </div>
+            </div>
 
-          {/* Depth / Detail Level Selector */}
-          <div className="selector-group">
-            <label className="selector-group-label">
-              <span>DEPTH / LEVEL OF DETAIL</span>
-            </label>
-            <div className="detail-pills-row">
-              {DETAIL_LEVELS.map((d) => {
-                const isSelected = detailLevel === d.id
+            <div className="output-grid-list">
+              {Object.keys(OUTPUT_META).map((key) => {
+                const isChecked = selectedOutputs[key]
+                const meta = OUTPUT_META[key]
                 return (
-                  <button
-                    key={d.id}
-                    type="button"
-                    className={`detail-pill-btn ${isSelected ? 'active' : ''}`}
-                    onClick={() => setDetailLevel(d.id)}
+                  <div
+                    key={key}
+                    className={`output-grid-tile ${isChecked ? 'selected' : ''}`}
+                    onClick={() => setSelectedOutputs({ ...selectedOutputs, [key]: !isChecked })}
+                    title={meta.desc}
                   >
-                    {d.label}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Communication Objective Selector */}
-          <div className="selector-group">
-            <label className="selector-group-label">
-              <span>PRIMARY OBJECTIVE</span>
-            </label>
-            <select
-              className="language-select-dropdown"
-              value={communicationObjective}
-              onChange={(e) => setCommunicationObjective(e.target.value)}
-            >
-              {OBJECTIVE_OPTIONS.map((obj) => (
-                <option key={obj} value={obj}>
-                  {obj}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <p className="panel-heading" style={{ marginTop: '16px' }}>FORMAT OUTPUTS</p>
-
-          <div className="output-options-list">
-            {Object.keys(OUTPUT_META).map((key) => {
-              const isChecked = selectedOutputs[key]
-              const meta = OUTPUT_META[key]
-              return (
-                <label className={`output-option-card ${isChecked ? 'selected' : ''}`} key={key}>
-                  <div className="output-checkbox-wrapper">
-                    <input
-                      type="checkbox"
-                      checked={isChecked}
-                      onChange={(e) => setSelectedOutputs({ ...selectedOutputs, [key]: e.target.checked })}
-                    />
-                    <div className={`custom-checkbox ${isChecked ? 'checked' : ''}`}>
+                    <div className="grid-tile-left">
+                      <span className="grid-tile-icon">{meta.icon}</span>
+                      <span className="grid-tile-label">{meta.label}</span>
+                    </div>
+                    <div className={`tile-checkbox ${isChecked ? 'checked' : ''}`}>
                       {isChecked && (
-                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="20 6 9 17 4 12" />
                         </svg>
                       )}
                     </div>
                   </div>
-                  <div className="output-option-icon-box">{meta.icon}</div>
-                  <div className="output-option-content">
-                    <span className="output-option-title">{meta.label}</span>
-                    <span className="output-option-desc">{meta.desc}</span>
-                  </div>
-                </label>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
 
+          {/* Advanced AI Tuning Collapsible Accordion */}
+          <details className="tuning-accordion">
+            <summary className="tuning-summary">
+              <div className="tuning-summary-left">
+                <span className="tuning-summary-icon">{Icon.sparkleOut}</span>
+                <span className="tuning-summary-title">Advanced Parameters</span>
+              </div>
+              <div className="tuning-summary-right">
+                <span className="tuning-summary-badge">
+                  {tone.split(' ')[0]} • {detailLevel.split(' ')[0]}
+                </span>
+                <span className="tuning-chevron">▾</span>
+              </div>
+            </summary>
+            <div className="tuning-body">
+              {/* Tone */}
+              <div className="tuning-field">
+                <label className="tuning-label">COMMUNICATION TONE</label>
+                <select
+                  className="language-select-dropdown compact-select"
+                  value={tone}
+                  onChange={(e) => setTone(e.target.value)}
+                >
+                  {TONE_OPTIONS.map((t) => (
+                    <option key={t} value={t}>{t}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Depth */}
+              <div className="tuning-field">
+                <label className="tuning-label">DEPTH / DETAIL LEVEL</label>
+                <div className="detail-pills-row">
+                  {DETAIL_LEVELS.map((d) => {
+                    const isSelected = detailLevel === d.id
+                    return (
+                      <button
+                        key={d.id}
+                        type="button"
+                        className={`detail-pill-btn ${isSelected ? 'active' : ''}`}
+                        onClick={() => setDetailLevel(d.id)}
+                      >
+                        {d.label}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Objective */}
+              <div className="tuning-field">
+                <label className="tuning-label">PRIMARY OBJECTIVE</label>
+                <select
+                  className="language-select-dropdown compact-select"
+                  value={communicationObjective}
+                  onChange={(e) => setCommunicationObjective(e.target.value)}
+                >
+                  {OBJECTIVE_OPTIONS.map((obj) => (
+                    <option key={obj} value={obj}>{obj}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </details>
+
+          {/* Primary Action Button */}
           <button
             className="generate-btn"
             onClick={handleGenerate}
-            disabled={loading || !fileInfo}
-            title={!fileInfo ? 'Upload an official document to generate analysis' : ''}
+            disabled={loading || !fileInfo || activeOutputCount === 0}
+            title={!fileInfo ? 'Upload an official document to generate analysis' : activeOutputCount === 0 ? 'Select at least one output format' : ''}
           >
             {loading ? (
               <>
                 <span className="spinner spinner-light" />
-                <span>Generating {selectedLanguage}...</span>
+                <span>Synthesizing ({selectedLanguage})...</span>
               </>
             ) : (
               <>
                 {Icon.cloudUpload}
-                <span>{fileInfo ? `Run Analysis (${selectedLanguage})` : 'Upload Document to Run'}</span>
+                <span>{fileInfo ? `Run Analysis (${activeOutputCount} Formats)` : 'Upload Document to Run'}</span>
               </>
             )}
           </button>
 
-          <div className="outputs-tip-box">
-            <div className="tip-header">
-              <div className="tip-icon">{Icon.lightbulb}</div>
-              <span className="tip-title">Tip</span>
-            </div>
-            <p className="tip-text">
-              Outputs will be generated natively in {selectedLanguage} tailored for {audienceLevel === 'system' ? 'SOC & Tech' : audienceLevel === 'people' ? 'Citizen Safety' : 'Executive/State'} audience.
-            </p>
+          <div className="outputs-compact-footer">
+            <span className="pulse-dot" />
+            <span className="footer-status-text">
+              {selectedLanguage} • {audienceLevel === 'system' ? 'SOC Technical' : audienceLevel === 'people' ? 'Citizen Safety' : 'Executive/Gov'}
+            </span>
           </div>
         </aside>
       </div>
