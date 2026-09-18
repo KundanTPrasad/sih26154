@@ -1930,68 +1930,6 @@ function Dashboard() {
             }}
             onOpenUpload={() => setShowUploadZone(true)}
           />
-
-          {/* ============ MISSION PROFILE & LOCALIZATION (IN LEFT PANEL) ============ */}
-          <div className="mission-profile-box">
-            <p className="panel-heading" style={{ marginTop: '16px', marginBottom: '10px' }}>
-              MISSION PROFILE & LOCALIZATION
-            </p>
-
-            {/* Regional Language Selector */}
-            <div className="selector-group compact-group">
-              <label className="selector-group-label">
-                {Icon.globe}
-                <span>TARGET REGIONAL LANGUAGE</span>
-              </label>
-              <select
-                className="language-select-dropdown compact-select"
-                value={selectedLanguage}
-                onChange={(e) => setSelectedLanguage(e.target.value)}
-              >
-                {INDIAN_LANGUAGES.map((lang) => (
-                  <option key={lang.code} value={lang.code}>
-                    {lang.label} ({lang.native})
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Primary Objective Selector */}
-            <div className="selector-group compact-group">
-              <label className="selector-group-label">
-                <span>PRIMARY OBJECTIVE</span>
-              </label>
-              <select
-                className="language-select-dropdown compact-select"
-                value={communicationObjective}
-                onChange={(e) => setCommunicationObjective(e.target.value)}
-              >
-                {OBJECTIVE_OPTIONS.map((obj) => (
-                  <option key={obj} value={obj}>
-                    {obj}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Tone Selector */}
-            <div className="selector-group compact-group">
-              <label className="selector-group-label">
-                <span>COMMUNICATION TONE</span>
-              </label>
-              <select
-                className="language-select-dropdown compact-select"
-                value={tone}
-                onChange={(e) => setTone(e.target.value)}
-              >
-                {TONE_OPTIONS.map((t) => (
-                  <option key={t} value={t}>
-                    {t}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
         </aside>
 
         <main className={`panel panel-center ${mobileTab === 'results' ? 'mobile-active' : 'mobile-hidden'}`}>
@@ -2384,9 +2322,73 @@ function Dashboard() {
 
         <aside className={`panel panel-outputs ${mobileTab === 'outputs' ? 'mobile-active' : 'mobile-hidden'}`}>
           <div className="outputs-header-row">
-            <p className="panel-heading">OUTPUT DISTRIBUTION</p>
+            <p className="panel-heading">OUTPUT & MISSION CONFIG</p>
             <span className="live-config-badge">{activeOutputCount}/8 Active</span>
           </div>
+
+          {/* ============ MISSION PROFILE & LOCALIZATION (RIGHT PANEL) ============ */}
+          <div className="mission-profile-section">
+            <div className="mission-profile-header-row">
+              <span className="section-mini-heading">MISSION PROFILE & LOCALIZATION</span>
+            </div>
+
+            {/* Regional Language Selector */}
+            <div className="selector-group compact-group">
+              <label className="selector-group-label">
+                {Icon.globe}
+                <span>TARGET REGIONAL LANGUAGE</span>
+              </label>
+              <select
+                className="language-select-dropdown compact-select"
+                value={selectedLanguage}
+                onChange={(e) => setSelectedLanguage(e.target.value)}
+              >
+                {INDIAN_LANGUAGES.map((lang) => (
+                  <option key={lang.code} value={lang.code}>
+                    {lang.label} ({lang.native})
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Primary Objective Selector */}
+            <div className="selector-group compact-group">
+              <label className="selector-group-label">
+                <span>PRIMARY OBJECTIVE</span>
+              </label>
+              <select
+                className="language-select-dropdown compact-select"
+                value={communicationObjective}
+                onChange={(e) => setCommunicationObjective(e.target.value)}
+              >
+                {OBJECTIVE_OPTIONS.map((obj) => (
+                  <option key={obj} value={obj}>
+                    {obj}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Tone Selector */}
+            <div className="selector-group compact-group">
+              <label className="selector-group-label">
+                <span>COMMUNICATION TONE</span>
+              </label>
+              <select
+                className="language-select-dropdown compact-select"
+                value={tone}
+                onChange={(e) => setTone(e.target.value)}
+              >
+                {TONE_OPTIONS.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="panel-sub-divider" />
 
           {/* 3-Level Audience Selector as Compact Segmented Control */}
           <div className="selector-group compact-group">
