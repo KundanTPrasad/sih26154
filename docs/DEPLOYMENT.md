@@ -60,14 +60,15 @@ If you prefer creating a Web Service manually:
 
 ## 4. Connect the Vercel Frontend to the Hosted Backend
 
-Once Render finishes deploying, it gives you a public HTTPS URL (e.g., `https://sih26154-backend.onrender.com`).
+Once Render finishes deploying, it gives you a public HTTPS URL:
+`https://sih26154.onrender.com`
 
 1. Open your frontend project settings on [Vercel](https://vercel.com).
 2. Go to **Settings** -> **Environment Variables**.
-3. Add / update:
+3. Verify / update:
    - **Key**: `VITE_API_BASE_URL`
-   - **Value**: `https://sih26154-backend.onrender.com` (use your actual Render URL, without a trailing slash)
-4. Redeploy your frontend on Vercel so it picks up the new backend URL.
+   - **Value**: `https://sih26154.onrender.com` (configured on Vercel)
+4. Both Vercel and Render auto-deploy on every push to branch `main`.
 
 ---
 
