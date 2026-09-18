@@ -55,6 +55,9 @@ class AnalysisResult(SQLModel, table=True):
     severity: Optional[str] = Field(default=None)
     language: Optional[str] = Field(default="English")
     audience_level: Optional[str] = Field(default="organization")
+    content_hash: Optional[str] = Field(default=None)
+    blockchain_tx: Optional[str] = Field(default=None)
+    is_verified: bool = Field(default=True)
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 
@@ -66,6 +69,9 @@ with engine.connect() as conn:
     try:
         conn.execute(text("ALTER TABLE analysisresult ADD COLUMN IF NOT EXISTS language VARCHAR DEFAULT 'English';"))
         conn.execute(text("ALTER TABLE analysisresult ADD COLUMN IF NOT EXISTS audience_level VARCHAR DEFAULT 'organization';"))
+        conn.execute(text("ALTER TABLE analysisresult ADD COLUMN IF NOT EXISTS content_hash VARCHAR;"))
+        conn.execute(text("ALTER TABLE analysisresult ADD COLUMN IF NOT EXISTS blockchain_tx VARCHAR;"))
+        conn.execute(text("ALTER TABLE analysisresult ADD COLUMN IF NOT EXISTS is_verified BOOLEAN DEFAULT TRUE;"))
         conn.commit()
     except Exception as err:
         print(f"Migration error: {err}")
