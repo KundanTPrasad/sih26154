@@ -1981,61 +1981,234 @@ kbd {
 }
 
 /* ============================================================
-   Official Compliance Notice (when no file uploaded)
+   Enhanced Left Panel: Multi-Mode Ingestion & Mission Profile
    ============================================================ */
 
 .source-upload-section {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-}
-
-.source-compliance-notice {
-  background: #FFFFFF;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 18px 16px;
-}
-
-.compliance-notice-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #0F172A;
-  margin-bottom: 8px;
-}
-
-.compliance-notice-desc {
-  font-size: 12px;
-  color: #64748B;
-  line-height: 1.5;
-  margin-bottom: 14px;
-}
-
-.compliance-features {
-  display: flex;
-  flex-direction: column;
   gap: 12px;
 }
 
-.compliance-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 12px;
-  color: #475569;
-  line-height: 1.45;
+/* Ingestion Mode Switcher */
+.ingestion-mode-switcher {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  background: #F1F5F9;
+  padding: 3px;
+  border-radius: 8px;
+  border: 1px solid #E2E8F0;
 }
 
-.compliance-check-icon {
-  color: #16A34A;
-  flex-shrink: 0;
-  margin-top: 1px;
+.ingestion-tab-btn {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #64748B;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ingestion-tab-btn:hover {
+  color: #1E293B;
+}
+
+.ingestion-tab-btn.active {
+  background: #FFFFFF;
+  color: #2563EB;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Raw Intel Input Area */
+.raw-intel-box {
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.raw-intel-box:focus-within {
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.raw-intel-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  outline: none;
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: #0F172A;
+  background: transparent;
+  resize: vertical;
+  min-height: 120px;
+}
+
+.raw-intel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: #F8FAFC;
+  border-top: 1px solid #E2E8F0;
+}
+
+.raw-intel-counter {
+  font-size: 10.5px;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.raw-intel-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.raw-intel-sample-btn {
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  color: #1D4ED8;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.raw-intel-sample-btn:hover {
+  background: #DBEAFE;
+}
+
+.raw-intel-apply-btn {
+  background: #2563EB;
+  border: none;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.raw-intel-apply-btn:hover:not(:disabled) {
+  background: #1D4ED8;
+}
+
+.raw-intel-apply-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Extracted Telemetry Accordion in Left Panel */
+.telemetry-preview-accordion {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.telemetry-preview-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.telemetry-preview-summary::-webkit-details-marker {
+  display: none;
+}
+
+.telemetry-summary-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.telemetry-summary-icon {
+  font-size: 12px;
+}
+
+.telemetry-chevron {
+  font-size: 11px;
+  color: #94A3B8;
+  transition: transform 0.2s ease;
+}
+
+.telemetry-preview-accordion[open] .telemetry-chevron {
+  transform: rotate(180deg);
+}
+
+.telemetry-preview-body {
+  padding: 8px 10px;
+  border-top: 1px solid #E2E8F0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.telemetry-preview-text {
+  font-family: var(--font-mono, monospace);
+  font-size: 10.5px;
+  line-height: 1.45;
+  color: #475569;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 4px;
+  padding: 8px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 120px;
+  overflow-y: auto;
+  margin: 0;
+}
+
+.telemetry-copy-btn {
+  align-self: flex-end;
+  background: #F1F5F9;
+  border: 1px solid #CBD5E1;
+  color: #334155;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.telemetry-copy-btn:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+}
+
+/* Mission Profile Box */
+.mission-profile-box {
+  margin-top: 14px;
+  border-top: 1px solid #E2E8F0;
+  padding-top: 12px;
 }
 
 .replace-file-btn {
@@ -2117,18 +2290,73 @@ kbd {
   color: #CBD5E1;
 }
 
-[data-theme='dark'] .source-compliance-notice {
+/* Dark Mode: Left Panel Ingestion & Mission Profile */
+[data-theme='dark'] .ingestion-mode-switcher {
+  background: #111827;
+  border-color: #374151;
+}
+
+[data-theme='dark'] .ingestion-tab-btn {
+  color: #94A3B8;
+}
+
+[data-theme='dark'] .ingestion-tab-btn:hover {
+  color: #F8FAFC;
+}
+
+[data-theme='dark'] .ingestion-tab-btn.active {
+  background: #1E293B;
+  color: #60A5FA;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .raw-intel-box {
   background: #1E293B;
   border-color: #374151;
 }
 
-[data-theme='dark'] .compliance-notice-header {
+[data-theme='dark'] .raw-intel-textarea {
   color: #F8FAFC;
 }
 
-[data-theme='dark'] .compliance-notice-desc,
-[data-theme='dark'] .compliance-item {
-  color: #94A3B8;
+[data-theme='dark'] .raw-intel-footer {
+  background: #111827;
+  border-top-color: #374151;
+}
+
+[data-theme='dark'] .raw-intel-sample-btn {
+  background: rgba(37, 99, 235, 0.2);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #93C5FD;
+}
+
+[data-theme='dark'] .telemetry-preview-accordion {
+  background: #111827;
+  border-color: #374151;
+}
+
+[data-theme='dark'] .telemetry-preview-summary {
+  color: #E2E8F0;
+}
+
+[data-theme='dark'] .telemetry-preview-body {
+  border-top-color: #374151;
+}
+
+[data-theme='dark'] .telemetry-preview-text {
+  background: #1E293B;
+  border-color: #374151;
+  color: #CBD5E1;
+}
+
+[data-theme='dark'] .telemetry-copy-btn {
+  background: #1E293B;
+  border-color: #374151;
+  color: #CBD5E1;
+}
+
+[data-theme='dark'] .mission-profile-box {
+  border-top-color: #374151;
 }
 
 [data-theme='dark'] .pro-hero-circle {

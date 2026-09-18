@@ -913,6 +913,8 @@ function Dashboard() {
   const [communicationObjective, setCommunicationObjective] = useState('Incident Mitigation')
 
   const [sourceText, setSourceText] = useState('')
+  const [ingestionMode, setIngestionMode] = useState('upload') // 'upload' | 'raw'
+  const [rawTextInput, setRawTextInput] = useState('')
   const [advisory, setAdvisory] = useState(null)
   const [actionPlan, setActionPlan] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -970,6 +972,7 @@ function Dashboard() {
 
   const handleSelectPreset = (preset) => {
     setSourceText(preset.text)
+    setRawTextInput(preset.text)
     setFileInfo({
       filename: `${preset.id}_intel_feed.txt`,
       file_type: 'txt',
@@ -978,6 +981,38 @@ function Dashboard() {
     })
     setUploadId(null)
     setToast(`Loaded scenario: ${preset.title}`)
+  }
+
+  const handleApplyRawIntel = () => {
+    if (!rawTextInput.trim()) {
+      setError('Please enter or paste raw threat intelligence / incident text.')
+      return
+    }
+    setSourceText(rawTextInput)
+    setFileInfo({
+      filename: 'raw_incident_telemetry.txt',
+      file_type: 'txt',
+      file_size: rawTextInput.length,
+      page_count: 1,
+    })
+    setUploadId(null)
+    setError('')
+    setToast('Raw threat intelligence loaded for analysis')
+  }
+
+  const handleLoadSampleIntel = () => {
+    const sample = `NATIONAL CYBER THREAT ALERT - CRITICAL VULNERABILITY\nReference: CERT-IN-2026-ALERT-044\nSeverity: CRITICAL (CVSS 9.8)\nA critical Remote Code Execution (RCE) vulnerability (CVE-2026-9921) has been identified in perimeter gateway routers running firmware v4.2. Threat actors are exploiting buffer overflows to obtain root shell access and exfiltrate operational telemetry.\nMitigation: Upgrade firmware immediately to v4.2.1-patch, restrict WAN admin interface on port 8443, and monitor firewall egress logs for anomalous outbound traffic.`
+    setRawTextInput(sample)
+    setSourceText(sample)
+    setFileInfo({
+      filename: 'certin_sample_alert.txt',
+      file_type: 'txt',
+      file_size: sample.length,
+      page_count: 1,
+    })
+    setUploadId(null)
+    setError('')
+    setToast('Loaded sample threat intelligence')
   }
 
   const handleSelectAllOutputs = () => {
@@ -1346,19 +1381,26 @@ function Dashboard() {
 
   const handleClear = () => {
     setSourceText('')
+    setRawTextInput('')
     setAdvisory(null)
     setActionPlan(null)
+    setVideoPackage(null)
+    setTwitterThread(null)
+    setInfographicBlueprint(null)
+    setPresentationSlides(null)
     setSecondaryResults({})
     setError('')
     setFileInfo(null)
     setUploadId(null)
-    textareaRef.current?.focus()
+    setSanitizationInfo(null)
   }
 
   const handleRemoveFile = () => {
     setFileInfo(null)
     setUploadId(null)
     setSourceText('')
+    setRawTextInput('')
+    setSanitizationInfo(null)
   }
 
   const handleLoadHistoryItem = (item) => {
@@ -1456,7 +1498,7 @@ function Dashboard() {
           )}
 
           <div className="panel-heading-row">
-            <p className="panel-heading">SOURCE DOCUMENT</p>
+            <p className="panel-heading">SOURCE INGESTION</p>
             {fileInfo && (
               <button className="text-btn" onClick={handleClear} type="button">
                 {Icon.clear}
@@ -1465,61 +1507,94 @@ function Dashboard() {
             )}
           </div>
 
-          {/* File Upload Zone - shown when no file uploaded */}
+          {/* Quick Demo Scenarios (Always accessible for rapid hackathon testing) */}
+          {demoPresets.length > 0 && (
+            <div className="demo-preset-panel">
+              <div className="demo-preset-header">
+                <span className="demo-preset-lightning">⚡</span>
+                <span className="demo-preset-title">QUICK SCENARIOS (JUDGES):</span>
+              </div>
+              <div className="demo-preset-chips">
+                {demoPresets.map((preset) => (
+                  <button
+                    key={preset.id}
+                    type="button"
+                    className="demo-preset-chip"
+                    onClick={() => handleSelectPreset(preset)}
+                    title={preset.title}
+                  >
+                    <span className="preset-chip-dot" />
+                    <span>{preset.title.split('(')[0].trim()}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Ingestion Area: Upload vs Raw Intel */}
           {!fileInfo ? (
             <div className="source-upload-section">
-              {demoPresets.length > 0 && (
-                <div className="demo-preset-panel">
-                  <div className="demo-preset-header">
-                    <span className="demo-preset-lightning">⚡</span>
-                    <span className="demo-preset-title">QUICK DEMO SCENARIOS (FOR JUDGES):</span>
-                  </div>
-                  <div className="demo-preset-chips">
-                    {demoPresets.map((preset) => (
+              {/* Ingestion Mode Switcher */}
+              <div className="ingestion-mode-switcher">
+                <button
+                  type="button"
+                  className={`ingestion-tab-btn ${ingestionMode === 'upload' ? 'active' : ''}`}
+                  onClick={() => setIngestionMode('upload')}
+                >
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                  </svg>
+                  <span>Upload Document</span>
+                </button>
+                <button
+                  type="button"
+                  className={`ingestion-tab-btn ${ingestionMode === 'raw' ? 'active' : ''}`}
+                  onClick={() => setIngestionMode('raw')}
+                >
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="4 17 10 11 4 5" />
+                    <line x1="12" y1="19" x2="20" y2="19" />
+                  </svg>
+                  <span>Paste Raw Intel</span>
+                </button>
+              </div>
+
+              {ingestionMode === 'upload' ? (
+                <FileDropZone onFileProcessed={handleFileUpload} uploading={uploading} />
+              ) : (
+                <div className="raw-intel-box">
+                  <textarea
+                    className="raw-intel-textarea"
+                    placeholder="Paste unformatted CERT-In advisory, CVE telemetry, network intrusion logs, or threat intelligence here..."
+                    value={rawTextInput}
+                    onChange={(e) => setRawTextInput(e.target.value)}
+                    rows={6}
+                  />
+                  <div className="raw-intel-footer">
+                    <span className="raw-intel-counter">
+                      {rawTextInput.length} chars • ~{rawTextInput.trim() ? rawTextInput.trim().split(/\s+/).length : 0} words
+                    </span>
+                    <div className="raw-intel-actions">
                       <button
-                        key={preset.id}
                         type="button"
-                        className="demo-preset-chip"
-                        onClick={() => handleSelectPreset(preset)}
-                        title={preset.title}
+                        className="raw-intel-sample-btn"
+                        onClick={handleLoadSampleIntel}
                       >
-                        <span className="preset-chip-dot" />
-                        <span>{preset.title.split('(')[0].trim()}</span>
+                        Sample Intel
                       </button>
-                    ))}
+                      <button
+                        type="button"
+                        className="raw-intel-apply-btn"
+                        onClick={handleApplyRawIntel}
+                        disabled={!rawTextInput.trim()}
+                      >
+                        Load Intel
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
-
-              <FileDropZone onFileProcessed={handleFileUpload} uploading={uploading} />
-
-              <div className="source-compliance-notice">
-                <div className="compliance-notice-header">
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="16" x2="12" y2="12" />
-                    <line x1="12" y1="8" x2="12.01" y2="8" />
-                  </svg>
-                  <span>Official Document Ingestion Only</span>
-                </div>
-                <p className="compliance-notice-desc">
-                  To ensure audit compliance and official verification, direct manual text input is disabled.
-                </p>
-                <div className="compliance-features">
-                  <div className="compliance-item">
-                    <span className="compliance-check-icon">{Icon.circleCheck}</span>
-                    <span>Upload official incident reports, audit logs, or raw data captures.</span>
-                  </div>
-                  <div className="compliance-item">
-                    <span className="compliance-check-icon">{Icon.circleCheck}</span>
-                    <span>Supported formats: <strong>PDF, PNG, JPG, JPEG, WEBP</strong> (up to 10 MB).</span>
-                  </div>
-                  <div className="compliance-item">
-                    <span className="compliance-check-icon">{Icon.circleCheck}</span>
-                    <span>Data is extracted and processed directly by AI into selected official outputs.</span>
-                  </div>
-                </div>
-              </div>
             </div>
           ) : (
             <div className="file-uploaded-container">
@@ -1544,15 +1619,33 @@ function Dashboard() {
                 </div>
               )}
 
-              <div className="file-ready-notice">
-                <div className="file-ready-badge">
-                  <span className="file-ready-dot" />
-                  <span>Document Verified & Ready</span>
-                </div>
-                <p className="file-ready-hint">
-                  Raw data has been validated. Select your required output formats in the Outputs panel and click <strong>Generate</strong>.
-                </p>
-              </div>
+              {/* Collapsible Source Intel Telemetry Preview */}
+              {sourceText && (
+                <details className="telemetry-preview-accordion">
+                  <summary className="telemetry-preview-summary">
+                    <span className="telemetry-summary-left">
+                      <span className="telemetry-summary-icon">🔍</span>
+                      <span>Extracted Telemetry ({sourceText.length} chars)</span>
+                    </span>
+                    <span className="telemetry-chevron">▾</span>
+                  </summary>
+                  <div className="telemetry-preview-body">
+                    <pre className="telemetry-preview-text">
+                      {sourceText.slice(0, 350)}{sourceText.length > 350 ? '...' : ''}
+                    </pre>
+                    <button
+                      type="button"
+                      className="telemetry-copy-btn"
+                      onClick={() => {
+                        navigator.clipboard.writeText(sourceText)
+                        setToast('Source telemetry copied to clipboard')
+                      }}
+                    >
+                      Copy Telemetry
+                    </button>
+                  </div>
+                </details>
+              )}
 
               <button
                 className="secondary-btn replace-file-btn"
@@ -1560,10 +1653,72 @@ function Dashboard() {
                 type="button"
               >
                 {Icon.upload}
-                <span>Upload a different document</span>
+                <span>Ingest Different Source</span>
               </button>
             </div>
           )}
+
+          {/* ============ MISSION PROFILE & LOCALIZATION (IN LEFT PANEL) ============ */}
+          <div className="mission-profile-box">
+            <p className="panel-heading" style={{ marginTop: '16px', marginBottom: '10px' }}>
+              MISSION PROFILE & LOCALIZATION
+            </p>
+
+            {/* Regional Language Selector */}
+            <div className="selector-group compact-group">
+              <label className="selector-group-label">
+                {Icon.globe}
+                <span>TARGET REGIONAL LANGUAGE</span>
+              </label>
+              <select
+                className="language-select-dropdown compact-select"
+                value={selectedLanguage}
+                onChange={(e) => setSelectedLanguage(e.target.value)}
+              >
+                {INDIAN_LANGUAGES.map((lang) => (
+                  <option key={lang.code} value={lang.code}>
+                    {lang.label} ({lang.native})
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Primary Objective Selector */}
+            <div className="selector-group compact-group">
+              <label className="selector-group-label">
+                <span>PRIMARY OBJECTIVE</span>
+              </label>
+              <select
+                className="language-select-dropdown compact-select"
+                value={communicationObjective}
+                onChange={(e) => setCommunicationObjective(e.target.value)}
+              >
+                {OBJECTIVE_OPTIONS.map((obj) => (
+                  <option key={obj} value={obj}>
+                    {obj}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Tone Selector */}
+            <div className="selector-group compact-group">
+              <label className="selector-group-label">
+                <span>COMMUNICATION TONE</span>
+              </label>
+              <select
+                className="language-select-dropdown compact-select"
+                value={tone}
+                onChange={(e) => setTone(e.target.value)}
+              >
+                {TONE_OPTIONS.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </aside>
 
         <main className="panel panel-center">
@@ -1956,34 +2111,15 @@ function Dashboard() {
 
         <aside className="panel panel-outputs">
           <div className="outputs-header-row">
-            <p className="panel-heading">OUTPUT CONFIGURATION</p>
+            <p className="panel-heading">OUTPUT DISTRIBUTION</p>
             <span className="live-config-badge">{activeOutputCount}/8 Active</span>
-          </div>
-
-          {/* Regional Language Selector */}
-          <div className="selector-group compact-group">
-            <label className="selector-group-label">
-              {Icon.globe}
-              <span>TARGET REGIONAL LANGUAGE</span>
-            </label>
-            <select
-              className="language-select-dropdown compact-select"
-              value={selectedLanguage}
-              onChange={(e) => setSelectedLanguage(e.target.value)}
-            >
-              {INDIAN_LANGUAGES.map((lang) => (
-                <option key={lang.code} value={lang.code}>
-                  {lang.label} ({lang.native})
-                </option>
-              ))}
-            </select>
           </div>
 
           {/* 3-Level Audience Selector as Compact Segmented Control */}
           <div className="selector-group compact-group">
             <div className="selector-group-label-row">
               <label className="selector-group-label">
-                <span>AUDIENCE TIER</span>
+                <span>AUDIENCE DISTRIBUTION TIER</span>
               </label>
               <span className="audience-current-tag">
                 {audienceLevel === 'system' ? 'SOC & Tech' : audienceLevel === 'people' ? 'Citizen' : 'Gov & Exec'}
@@ -2002,6 +2138,28 @@ function Dashboard() {
                   >
                     <span className="segment-icon">{lvl.icon}</span>
                     <span className="segment-text">{lvl.short}</span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Depth / Detail Level Selector */}
+          <div className="selector-group compact-group">
+            <label className="selector-group-label">
+              <span>DEPTH / DETAIL LEVEL</span>
+            </label>
+            <div className="detail-pills-row">
+              {DETAIL_LEVELS.map((d) => {
+                const isSelected = detailLevel === d.id
+                return (
+                  <button
+                    key={d.id}
+                    type="button"
+                    className={`detail-pill-btn ${isSelected ? 'active' : ''}`}
+                    onClick={() => setDetailLevel(d.id)}
+                  >
+                    {d.label}
                   </button>
                 )
               })}
@@ -2047,71 +2205,6 @@ function Dashboard() {
               })}
             </div>
           </div>
-
-          {/* Advanced AI Tuning Collapsible Accordion */}
-          <details className="tuning-accordion">
-            <summary className="tuning-summary">
-              <div className="tuning-summary-left">
-                <span className="tuning-summary-icon">{Icon.sparkleOut}</span>
-                <span className="tuning-summary-title">Advanced Parameters</span>
-              </div>
-              <div className="tuning-summary-right">
-                <span className="tuning-summary-badge">
-                  {tone.split(' ')[0]} • {detailLevel.split(' ')[0]}
-                </span>
-                <span className="tuning-chevron">▾</span>
-              </div>
-            </summary>
-            <div className="tuning-body">
-              {/* Tone */}
-              <div className="tuning-field">
-                <label className="tuning-label">COMMUNICATION TONE</label>
-                <select
-                  className="language-select-dropdown compact-select"
-                  value={tone}
-                  onChange={(e) => setTone(e.target.value)}
-                >
-                  {TONE_OPTIONS.map((t) => (
-                    <option key={t} value={t}>{t}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Depth */}
-              <div className="tuning-field">
-                <label className="tuning-label">DEPTH / DETAIL LEVEL</label>
-                <div className="detail-pills-row">
-                  {DETAIL_LEVELS.map((d) => {
-                    const isSelected = detailLevel === d.id
-                    return (
-                      <button
-                        key={d.id}
-                        type="button"
-                        className={`detail-pill-btn ${isSelected ? 'active' : ''}`}
-                        onClick={() => setDetailLevel(d.id)}
-                      >
-                        {d.label}
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-
-              {/* Objective */}
-              <div className="tuning-field">
-                <label className="tuning-label">PRIMARY OBJECTIVE</label>
-                <select
-                  className="language-select-dropdown compact-select"
-                  value={communicationObjective}
-                  onChange={(e) => setCommunicationObjective(e.target.value)}
-                >
-                  {OBJECTIVE_OPTIONS.map((obj) => (
-                    <option key={obj} value={obj}>{obj}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </details>
 
           {/* Primary Action Button */}
           <button
