@@ -271,6 +271,46 @@ const OUTPUT_META = {
 }
 
 
+const UPLOADED_SOURCES_KEY = 'transvexa_uploaded_sources_v1'
+
+function loadStoredSources() {
+  try {
+    const raw = localStorage.getItem(UPLOADED_SOURCES_KEY)
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed
+    }
+  } catch (e) {}
+  return [
+    {
+      id: 'src_default_rce',
+      filename: 'CERT-IN-2026-ALERT-044-Gateway-Router.pdf',
+      file_type: 'pdf',
+      file_size: 248900,
+      page_count: 4,
+      extracted_text: 'NATIONAL CYBER THREAT ALERT - CRITICAL VULNERABILITY\nReference: CERT-IN-2026-ALERT-044\nSeverity: CRITICAL (CVSS 9.8)\nA critical Remote Code Execution (RCE) vulnerability (CVE-2026-9921) has been discovered in government gateway routers running firmware v4.2. Exploitation allows unauthenticated threat actors to gain root shell access and exfiltrate operational telemetry.\nInternal Gateway Coordinates: 192.168.1.105 connecting to database cluster at 10.0.4.22.\nCompromised credential identified: admin_root=SuperRouterKey2026!.\nMitigation: Upgrade firmware immediately to v4.2.1-patch, restrict WAN access on port 8443, and audit system logs for unauthorized IP connections.',
+      timestamp: Date.now() - 1800000,
+      category: 'Perimeter Defense',
+    },
+    {
+      id: 'src_default_scada',
+      filename: 'Substation_Alpha_Modbus_Telemetry.log',
+      file_type: 'txt',
+      file_size: 142000,
+      page_count: 1,
+      extracted_text: 'TACTICAL INCIDENT DISCOVERY - POWER DISTRIBUTION GRID\nOperator Notice: Industrial control systems in Substation Alpha reported anomalous Modbus TCP packets on port 502.\nCompromised credential identified: password=GridOperator2026!.\nThreat Actor identified: Sandworm / BlackEnergy affiliate deploying custom ransomware wiper module.\nInternal Target: 10.14.88.2 primary telemetry gateway.\nAction Required: Isolate SCADA VLAN immediately, failover to air-gapped manual substation relays, and deploy endpoint detection signatures across all HMI terminals.',
+      timestamp: Date.now() - 7200000,
+      category: 'SCADA / OT',
+    }
+  ]
+}
+
+function saveStoredSources(items) {
+  try {
+    localStorage.setItem(UPLOADED_SOURCES_KEY, JSON.stringify(items.slice(0, 15)))
+  } catch (e) {}
+}
+
 function loadHistory() {
   try {
     const raw = localStorage.getItem(HISTORY_KEY)
@@ -454,20 +494,126 @@ function FileInfoCard({ fileInfo, onRemove }) {
   return (
     <div className="file-info-card">
       <div className="file-info-icon">
-        {fileInfo.file_type === 'pdf' ? Icon.pdf : Icon.image}
+        {fileInfo.file_type === 'pdf' ? Icon.pdf : fileInfo.file_type === 'txt' ? '📝' : Icon.image}
       </div>
       <div className="file-info-details">
-        <span className="file-info-name">{fileInfo.filename}</span>
+        <div className="file-info-top-row">
+          <span className="file-info-name">{fileInfo.filename}</span>
+          <span className="file-active-tag">● ACTIVE</span>
+        </div>
         <span className="file-info-meta">
           {formatFileSize(fileInfo.file_size)}
           {fileInfo.file_type === 'pdf' && ` · ${fileInfo.page_count} page${fileInfo.page_count > 1 ? 's' : ''}`}
           {' · '}
-          <span className="file-info-type-badge">{fileInfo.file_type.toUpperCase()}</span>
+          <span className="file-info-type-badge">{(fileInfo.file_type || 'TXT').toUpperCase()}</span>
         </span>
       </div>
       <button className="icon-btn danger" onClick={onRemove} type="button" title="Remove file">
         {Icon.clear}
       </button>
+    </div>
+  )
+}
+
+// ---------- Uploaded Sources Archive / Ledger Component ----------
+function UploadedSourcesLedger({
+  sources,
+  activeFileInfo,
+  onSelectSource,
+  onDeleteSource,
+  onClearAll,
+  onOpenUpload,
+}) {
+  return (
+    <div className="uploaded-sources-ledger">
+      <div className="uploaded-sources-header">
+        <div className="sources-title-group">
+          <span className="sources-title-icon">📂</span>
+          <span className="uploaded-sources-title">INGESTED SOURCES ARCHIVE</span>
+          <span className="sources-count-badge">{sources.length}</span>
+        </div>
+        <div className="sources-header-actions">
+          <button
+            type="button"
+            className="new-source-action-btn"
+            onClick={onOpenUpload}
+            title="Upload another file or paste telemetry"
+          >
+            + Ingest File
+          </button>
+          {sources.length > 0 && (
+            <button
+              type="button"
+              className="clear-sources-btn"
+              onClick={onClearAll}
+              title="Clear all stored sources"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+      </div>
+
+      {sources.length === 0 ? (
+        <div className="empty-sources-box">
+          <p className="empty-sources-text">No documents in archive yet.</p>
+          <p className="empty-sources-sub">Upload a PDF, image, or select a scenario to catalog it here.</p>
+        </div>
+      ) : (
+        <div className="uploaded-sources-list">
+          {sources.map((src) => {
+            const isActive = activeFileInfo && (activeFileInfo.filename === src.filename || activeFileInfo.id === src.id)
+            return (
+              <div
+                key={src.id}
+                className={`uploaded-source-card ${isActive ? 'active-source' : ''}`}
+                onClick={() => onSelectSource(src)}
+                title="Click to activate this document for analysis"
+              >
+                <div className="source-card-main">
+                  <div className="source-file-badge">
+                    {src.file_type === 'pdf' ? '📄 PDF' : src.file_type === 'txt' ? '📝 RAW' : '🖼️ IMG'}
+                  </div>
+                  <div className="source-card-text">
+                    <div className="source-filename" title={src.filename}>
+                      {src.filename}
+                    </div>
+                    <div className="source-meta-row">
+                      <span>{formatFileSize(src.file_size)}</span>
+                      {src.page_count && src.file_type === 'pdf' && (
+                        <span> • {src.page_count}p</span>
+                      )}
+                      <span> • {timeAgo(src.timestamp)}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="source-card-actions">
+                  {isActive ? (
+                    <span className="source-active-pill">
+                      <span className="pulse-green-dot" />
+                      <span>Active</span>
+                    </span>
+                  ) : (
+                    <span className="source-load-pill">Load</span>
+                  )}
+                  <button
+                    type="button"
+                    className="source-remove-btn"
+                    onClick={(e) => onDeleteSource(src.id, e)}
+                    title="Remove from archive"
+                  >
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }
@@ -945,6 +1091,47 @@ function Dashboard() {
 
   const [demoPresets, setDemoPresets] = useState([])
   const [exportingDossier, setExportingDossier] = useState(false)
+  const [mobileTab, setMobileTab] = useState('source') // 'source' | 'outputs' | 'results'
+  const [uploadedSources, setUploadedSources] = useState(loadStoredSources)
+  const [showUploadZone, setShowUploadZone] = useState(false)
+
+  const addUploadedSource = useCallback((sourceItem) => {
+    setUploadedSources((prev) => {
+      const filtered = prev.filter((s) => s.filename !== sourceItem.filename && s.id !== sourceItem.id)
+      const updated = [sourceItem, ...filtered].slice(0, 15)
+      saveStoredSources(updated)
+      return updated
+    })
+  }, [])
+
+  const handleSelectStoredSource = (source) => {
+    setFileInfo({
+      id: source.id,
+      filename: source.filename,
+      file_type: source.file_type,
+      file_size: source.file_size,
+      page_count: source.page_count,
+    })
+    setUploadId(source.upload_id || null)
+    setSourceText(source.extracted_text || '')
+    setRawTextInput(source.extracted_text || '')
+    setShowUploadZone(false)
+    setToast(`Activated source: "${source.filename}"`)
+  }
+
+  const handleDeleteStoredSource = (sourceId, e) => {
+    e.stopPropagation()
+    setUploadedSources((prev) => {
+      const updated = prev.filter((s) => s.id !== sourceId)
+      saveStoredSources(updated)
+      return updated
+    })
+    if (fileInfo && (fileInfo.id === sourceId || fileInfo.filename === sourceId)) {
+      setFileInfo(null)
+      setSourceText('')
+    }
+    setToast('Removed document from archive')
+  }
 
   useEffect(() => {
     api.get('/demo-presets')
@@ -973,13 +1160,20 @@ function Dashboard() {
   const handleSelectPreset = (preset) => {
     setSourceText(preset.text)
     setRawTextInput(preset.text)
-    setFileInfo({
-      filename: `${preset.id}_intel_feed.txt`,
+    const newFileInfo = {
+      id: 'preset_' + preset.id,
+      filename: `${preset.title.split('(')[0].trim()}.txt`,
       file_type: 'txt',
       file_size: preset.text.length,
       page_count: 1,
-    })
+      extracted_text: preset.text,
+      timestamp: Date.now(),
+      category: 'Preset Intel',
+    }
+    setFileInfo(newFileInfo)
     setUploadId(null)
+    addUploadedSource(newFileInfo)
+    setShowUploadZone(false)
     setToast(`Loaded scenario: ${preset.title}`)
   }
 
@@ -988,14 +1182,22 @@ function Dashboard() {
       setError('Please enter or paste raw threat intelligence / incident text.')
       return
     }
-    setSourceText(rawTextInput)
-    setFileInfo({
+    const newFileInfo = {
+      id: 'raw_' + Date.now(),
       filename: 'raw_incident_telemetry.txt',
       file_type: 'txt',
       file_size: rawTextInput.length,
       page_count: 1,
-    })
+      extracted_text: rawTextInput,
+      upload_id: null,
+      timestamp: Date.now(),
+      category: 'Raw Telemetry',
+    }
+    setSourceText(rawTextInput)
+    setFileInfo(newFileInfo)
     setUploadId(null)
+    addUploadedSource(newFileInfo)
+    setShowUploadZone(false)
     setError('')
     setToast('Raw threat intelligence loaded for analysis')
   }
@@ -1004,13 +1206,21 @@ function Dashboard() {
     const sample = `NATIONAL CYBER THREAT ALERT - CRITICAL VULNERABILITY\nReference: CERT-IN-2026-ALERT-044\nSeverity: CRITICAL (CVSS 9.8)\nA critical Remote Code Execution (RCE) vulnerability (CVE-2026-9921) has been identified in perimeter gateway routers running firmware v4.2. Threat actors are exploiting buffer overflows to obtain root shell access and exfiltrate operational telemetry.\nMitigation: Upgrade firmware immediately to v4.2.1-patch, restrict WAN admin interface on port 8443, and monitor firewall egress logs for anomalous outbound traffic.`
     setRawTextInput(sample)
     setSourceText(sample)
-    setFileInfo({
+    const newFileInfo = {
+      id: 'sample_alert',
       filename: 'certin_sample_alert.txt',
       file_type: 'txt',
       file_size: sample.length,
       page_count: 1,
-    })
+      extracted_text: sample,
+      upload_id: null,
+      timestamp: Date.now(),
+      category: 'Sample Alert',
+    }
+    setFileInfo(newFileInfo)
     setUploadId(null)
+    addUploadedSource(newFileInfo)
+    setShowUploadZone(false)
     setError('')
     setToast('Loaded sample threat intelligence')
   }
@@ -1227,14 +1437,22 @@ function Dashboard() {
       })
 
       const data = response.data
-      setFileInfo({
+      const newFileInfo = {
+        id: 'up_' + (data.upload_id || Date.now()),
         filename: data.filename,
         file_type: data.file_type,
         file_size: data.file_size,
         page_count: data.page_count,
-      })
+        extracted_text: data.extracted_text,
+        upload_id: data.upload_id,
+        timestamp: Date.now(),
+        category: 'Uploaded Document',
+      }
+      setFileInfo(newFileInfo)
       setUploadId(data.upload_id)
       setSourceText(data.extracted_text)
+      addUploadedSource(newFileInfo)
+      setShowUploadZone(false)
       setToast(`Uploaded "${data.filename}" successfully`)
     } catch (err) {
       const detail = err.response?.data?.detail || 'Failed to process file'
@@ -1242,7 +1460,7 @@ function Dashboard() {
     } finally {
       setUploading(false)
     }
-  }, [])
+  }, [addUploadedSource])
 
   // ---------- Generate using unified /analyze endpoint ----------
   const handleGenerate = useCallback(async () => {
@@ -1360,6 +1578,7 @@ function Dashboard() {
       const nextHistory = [entry, ...history].slice(0, MAX_HISTORY)
       setHistory(nextHistory)
       saveHistory(nextHistory)
+      setMobileTab('results')
     } catch (err) {
       setError('Failed to generate output. Please try again.')
     } finally {
@@ -1481,9 +1700,39 @@ function Dashboard() {
         </div>
       </header>
 
+      {/* Mobile Workflow Navigation Bar (Visible only on mobile screens <= 900px) */}
+      <div className="mobile-workflow-nav">
+        <button
+          type="button"
+          className={`mobile-tab-btn ${mobileTab === 'source' ? 'active' : ''}`}
+          onClick={() => setMobileTab('source')}
+        >
+          <span className="mobile-tab-icon">📥</span>
+          <span>1. Ingest</span>
+          {fileInfo && <span className="mobile-tab-dot green" />}
+        </button>
+        <button
+          type="button"
+          className={`mobile-tab-btn ${mobileTab === 'outputs' ? 'active' : ''}`}
+          onClick={() => setMobileTab('outputs')}
+        >
+          <span className="mobile-tab-icon">⚙️</span>
+          <span>2. Formats ({activeOutputCount})</span>
+        </button>
+        <button
+          type="button"
+          className={`mobile-tab-btn ${mobileTab === 'results' ? 'active' : ''}`}
+          onClick={() => setMobileTab('results')}
+        >
+          <span className="mobile-tab-icon">📊</span>
+          <span>3. Results</span>
+          {hasResults && <span className="mobile-tab-dot blue" />}
+        </button>
+      </div>
+
       <div className="workspace-body">
         <aside
-          className={`panel panel-source ${panelDragActive ? 'panel-drag-active' : ''}`}
+          className={`panel panel-source ${panelDragActive ? 'panel-drag-active' : ''} ${mobileTab === 'source' ? 'mobile-active' : 'mobile-hidden'}`}
           onDragEnter={handlePanelDragEnter}
           onDragOver={handlePanelDragOver}
           onDragLeave={handlePanelDragLeave}
@@ -1532,7 +1781,7 @@ function Dashboard() {
           )}
 
           {/* Ingestion Area: Upload vs Raw Intel */}
-          {!fileInfo ? (
+          {(!fileInfo || showUploadZone) ? (
             <div className="source-upload-section">
               {/* Ingestion Mode Switcher */}
               <div className="ingestion-mode-switcher">
@@ -1595,6 +1844,16 @@ function Dashboard() {
                   </div>
                 </div>
               )}
+
+              {fileInfo && showUploadZone && (
+                <button
+                  type="button"
+                  className="cancel-upload-btn"
+                  onClick={() => setShowUploadZone(false)}
+                >
+                  ← Return to Active Document ({fileInfo.filename})
+                </button>
+              )}
             </div>
           ) : (
             <div className="file-uploaded-container">
@@ -1649,14 +1908,28 @@ function Dashboard() {
 
               <button
                 className="secondary-btn replace-file-btn"
-                onClick={handleRemoveFile}
+                onClick={() => setShowUploadZone(true)}
                 type="button"
               >
                 {Icon.upload}
-                <span>Ingest Different Source</span>
+                <span>+ Upload / Ingest Another Source</span>
               </button>
             </div>
           )}
+
+          {/* ============ INGESTED SOURCES ARCHIVE (ALWAYS VISIBLE TO OPERATOR) ============ */}
+          <UploadedSourcesLedger
+            sources={uploadedSources}
+            activeFileInfo={fileInfo}
+            onSelectSource={handleSelectStoredSource}
+            onDeleteSource={handleDeleteStoredSource}
+            onClearAll={() => {
+              setUploadedSources([])
+              saveStoredSources([])
+              setToast('Cleared sources archive')
+            }}
+            onOpenUpload={() => setShowUploadZone(true)}
+          />
 
           {/* ============ MISSION PROFILE & LOCALIZATION (IN LEFT PANEL) ============ */}
           <div className="mission-profile-box">
@@ -1721,7 +1994,7 @@ function Dashboard() {
           </div>
         </aside>
 
-        <main className="panel panel-center">
+        <main className={`panel panel-center ${mobileTab === 'results' ? 'mobile-active' : 'mobile-hidden'}`}>
           {showHistory && (
             <div className="history-panel">
               <div className="history-panel-head">
@@ -2109,7 +2382,7 @@ function Dashboard() {
 
         </main>
 
-        <aside className="panel panel-outputs">
+        <aside className={`panel panel-outputs ${mobileTab === 'outputs' ? 'mobile-active' : 'mobile-hidden'}`}>
           <div className="outputs-header-row">
             <p className="panel-heading">OUTPUT DISTRIBUTION</p>
             <span className="live-config-badge">{activeOutputCount}/8 Active</span>
