@@ -261,13 +261,13 @@ const OBJECTIVE_OPTIONS = [
 
 const OUTPUT_META = {
   advisory: { label: 'Advisory', desc: 'Detailed CERT-In security advisory', icon: Icon.doc },
-  exec_summary: { label: 'Executive summary', desc: 'Concise summary for leadership', icon: Icon.doc },
-  action_plan: { label: 'Action plan', desc: 'Recommended mitigation steps', icon: Icon.plan },
-  linkedin: { label: 'LinkedIn post', desc: 'Professional social media brief', icon: Icon.linkedin },
-  twitter: { label: 'Twitter/X thread', desc: 'Platform-optimized tweet thread', icon: Icon.twitter },
-  video: { label: 'Video package', desc: 'Script, storyboard & subtitles', icon: Icon.video },
-  infographic: { label: 'Infographic blueprint', desc: 'Visual layout & hero messaging', icon: Icon.infographic },
-  presentation: { label: 'Presentation slides', desc: 'Slide deck outline & speaker notes', icon: Icon.presentation },
+  exec_summary: { label: 'Exec Summary', desc: 'Concise summary for leadership', icon: Icon.doc },
+  action_plan: { label: 'Action Plan', desc: 'Recommended mitigation steps', icon: Icon.plan },
+  linkedin: { label: 'LinkedIn', desc: 'Professional social media brief', icon: Icon.linkedin },
+  twitter: { label: 'Twitter / X', desc: 'Platform-optimized tweet thread', icon: Icon.twitter },
+  video: { label: 'Video Script', desc: 'Script, storyboard & subtitles', icon: Icon.video },
+  infographic: { label: 'Infographic', desc: 'Visual layout & hero messaging', icon: Icon.infographic },
+  presentation: { label: 'Slide Deck', desc: 'Slide deck outline & speaker notes', icon: Icon.presentation },
 }
 
 
